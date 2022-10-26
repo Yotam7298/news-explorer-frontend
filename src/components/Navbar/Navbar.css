@@ -10,22 +10,6 @@
     line-height: 24px;
 }
 
-.navbar_saved {
-    border-bottom-color: black;
-}
-
-.navbar_saved .navbar__logo {
-    color: black;
-}
-
-.navbar_saved .navbar__link {
-    color: black;
-}
-
-.navbar_saved .navbar__linkbox_selected {
-    border-bottom-color: black;
-}
-
 .navbar__logo {
     background-color: transparent;
     margin-right: auto;
@@ -112,4 +96,25 @@
 .navbar__signout:hover {
     cursor: pointer;
     opacity: .6;
+}
+
+.navbar_saved {
+    border-bottom-color: black;
+}
+
+.navbar_saved .navbar__logo {
+    color: black;
+}
+
+.navbar_saved .navbar__link {
+    color: black;
+}
+
+.navbar_saved .navbar__linkbox_selected {
+    border-bottom-color: black;
+}
+
+.navbar_saved .navbar__signout {
+    border-color: black;
+    color: black;
 }
