@@ -1,0 +1,32 @@
+.header {
+    width: 100vw;
+    background-image: url(../../images/frontpage-backgorund.png);
+    background-size: cover;
+    color: white;
+}
+
+.header__content {
+    width: clamp(452px, calc(452px + 156 * ((100vw - 768px) / 672)), 608px);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    justify-content: center;
+}
+
+.header__title {
+    margin-top: clamp(38px, calc(38px + 42 * ((100vw - 768px) / 672)), 80px);
+    margin-bottom: 0;
+    font-family: Roboto-slab, sans-serif;
+    font-weight: 400;
+    font-size: clamp(36px, calc(36px + 24 * ((100vw - 768px) / 672)), 60px);
+    line-height: clamp(40px, calc(40px + 24 * ((100vw - 768px) / 672)), 64px);
+}
+
+.header__subtitle {
+    margin-top: clamp(16px, calc(16px + 16 * ((100vw - 768px) / 672)), 32px);
+    font-family: Roboto, sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+}
