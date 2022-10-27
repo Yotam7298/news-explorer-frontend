@@ -4,6 +4,7 @@ import Navbar from '../Navbar/Navbar';
 import SearchForm from '../SearchForm/SearchForm';
 import SavedNewsHeader from '../SavedNewsHeader/SavedNewsHeader';
 import About from '../About/About';
+import Footer from '../Footer/Footer';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Header navbar={Navbar} searchForm={SearchForm} />
       <SavedNewsHeader navbar={Navbar} />
       <About />
+      <Footer />
     </div>
   );
 }

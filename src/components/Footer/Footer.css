@@ -1,0 +1,28 @@
+.footer {
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    font-family: Roboto, sans-serif;
+    font-weight: 400;
+}
+
+.footer__copyright {
+    margin-left: clamp(40px, calc(40px + 64 * ((100vw - 768px) / 672)), 104px);
+    margin-right: auto;
+    font-size: 16px;
+    line-height: 22px;
+    color: #B6BCBF;
+}
+
+.footer__link {
+    margin-right: 40px;
+    font-size: 18px;
+    line-height: 24px;
+    color: black;
+    text-decoration: none;
+}
+
+.footer__icon:last-of-type {
+ margin-left: 24px;
+ margin-right: clamp(40px, calc(40px + 64 * ((100vw - 768px) / 672)), 104px);
+}
