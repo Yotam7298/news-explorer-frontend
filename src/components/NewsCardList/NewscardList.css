@@ -1,0 +1,9 @@
+.cards-list {
+    /* background-color: #F5F6F7; */
+    width: 100%;
+    padding: clamp(32px, calc(32px + 32 * ((100vw - 768px) / 672)), 64px)
+            clamp(40px, calc(40px + 64 * ((100vw - 768px) / 672)), 104px);
+    display: grid;
+    grid-template-columns: max-content max-content max-content;
+    gap: clamp(8px, calc(8px + 8 * ((100vw - 768px) / 672)), 16px);
+}

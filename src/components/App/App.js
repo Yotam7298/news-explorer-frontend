@@ -6,6 +6,7 @@ import SavedNewsHeader from '../SavedNewsHeader/SavedNewsHeader';
 import About from '../About/About';
 import Footer from '../Footer/Footer';
 import NewsCard from '../NewsCard/NewsCard';
+import NewsCardList from '../NewsCardList/NewscardList';
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
       <SavedNewsHeader navbar={Navbar} />
       <About />
       <Footer /> */}
-      <NewsCard />
+      <NewsCardList cardTemplate={NewsCard} />
     </div>
   );
 }
