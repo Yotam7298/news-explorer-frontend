@@ -22,6 +22,7 @@
 }
 
 .news-card__function {
+    max-width: clamp(110px, calc(110px + 140 * ((100vw - 768px) / 672)), 220px);
     position: absolute;
     right: clamp(8px, calc(8px + 16 * ((100vw - 768px) / 672)), 24px);
     top: clamp(8px, calc(8px + 16 * ((100vw - 768px) / 672)), 24px);
@@ -39,9 +40,14 @@
     padding: 8px 20px;
     border-radius: 10px;
     display: none;
+    white-space: nowrap;
     font-weight: 500;
     font-size: 14px;
     line-height: 24px;
+}
+
+.news-card__function-message_show {
+    display: block;
 }
 
 .news-card__image {
