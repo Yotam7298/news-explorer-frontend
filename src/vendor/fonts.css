@@ -53,3 +53,10 @@
         url('./fonts/Roboto-slab/roboto-slab-700.woff2') format('woff2');
     font-weight: 700;
 }
+
+@font-face {
+    font-family: Source-sans-pro;
+    src: url('./fonts/Source-sans-pro/source-sans-pro-v21-latin-regular.woff') format('woff'),
+        url('./fonts/Source-sans-pro/source-sans-pro-v21-latin-regular.woff2') format('woff2');
+    font-weight: 400;
+}
