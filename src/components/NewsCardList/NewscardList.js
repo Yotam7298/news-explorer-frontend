@@ -1,15 +1,13 @@
 import React from "react";
 
-export default function NewsCardLi0st(props) {
+export default function NewsCardList(props) {
     return (
         <div className="cards-list">
-            <props.cardTemplate />
-            <props.cardTemplate />
-            <props.cardTemplate />
-            <props.cardTemplate />
-            <props.cardTemplate />
-            <props.cardTemplate />
-            <props.cardTemplate />
+            <props.cardTemplate isSaved={props.isSaved} />
+            <props.cardTemplate isSaved={props.isSaved} />
+            <props.cardTemplate isSaved={props.isSaved} />
+            <props.cardTemplate isSaved={props.isSaved} />
+            <props.cardTemplate isSaved={props.isSaved} />
         </div>
     )
 }

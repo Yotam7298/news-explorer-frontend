@@ -1,0 +1,27 @@
+.preloader {
+    width: 48px;
+    height: 48px;
+    position: relative;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    background: #F5F6F7;
+    background-clip: padding-box;
+    padding: 10px;
+}
+
+.preloader::after {
+    position: absolute;
+    top: -3px; bottom: -3px;
+    left: -3px; right: -3px;
+    background: conic-gradient(white, black);
+    content: '';
+    z-index: -1;
+    border-radius: 50%;
+    animation: rotate infinite 1s linear;
+}
+
+@keyframes rotate {
+	100% {
+		transform: rotate(360deg);
+	}
+  }

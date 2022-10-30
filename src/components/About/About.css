@@ -1,6 +1,7 @@
 .about {
     width: 100vw;
-    margin: 0 clamp(40px, calc(40px + 64 * ((100vw - 768px) / 672)), 104px);
+    margin: clamp(61px, calc(61px + 19 * ((100vw - 768px) / 672)), 80px)
+            clamp(40px, calc(40px + 64 * ((100vw - 768px) / 672)), 104px);
     display: flex;
 }
 
