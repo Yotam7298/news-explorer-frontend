@@ -3,6 +3,17 @@
     width: 100vw;
 }
 
+.main__loading {
+    padding: clamp(62px, calc(62px + 18 * ((100vw - 768px) / 672)), 80px) 0;
+}
+
+.main__loading-text {
+    font-family: Roboto, sans-serif;
+    font-size: 18px;
+    line-height: 24px;
+    color: #B6BCBF;
+}
+
 .main__title {
     margin: 0;
     margin-left: clamp(40px, calc(40px + 64 * ((100vw - 768px) / 672)), 104px);

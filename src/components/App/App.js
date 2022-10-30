@@ -9,16 +9,24 @@ import About from '../About/About';
 import Footer from '../Footer/Footer';
 import NewsCard from '../NewsCard/NewsCard';
 import NewsCardList from '../NewsCardList/NewscardList';
+import { Switch, Route } from 'react-router-dom';
 
 function App() {
+  const pathname = window.location.pathname;
+
   return (
     <div className="app">
-      {/* <Header navbar={Navbar} searchForm={SearchForm} />
-      <SavedNewsHeader navbar={Navbar} />
-      <Main element={NewsCard} elementList={NewsCardList} isSaved={false} />
-      <About />
-      <Footer />  */}
-      <Preloader />
+      <Switch>
+        <Route path='/saved-news'>
+        <SavedNewsHeader navbar={Navbar} />
+        <Main element={NewsCard} elementList={NewsCardList} isSaved={true} />
+      </Route>
+      <Route path='/'>
+        <Header navbar={Navbar} searchForm={SearchForm} />
+        <About />
+      </Route>
+    </Switch>
+    <Footer /> 
     </div>
   );
 }
