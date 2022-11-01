@@ -10,7 +10,7 @@ import Footer from '../Footer/Footer';
 import NewsCard from '../NewsCard/NewsCard';
 import NewsCardList from '../NewsCardList/NewscardList';
 import PopupWithForm from '../PopupWithForm/PopupWithForm';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 function App() {
   const [isPopupOpen, setIsPopupOpen] = React.useState(false);
@@ -38,6 +38,7 @@ function App() {
           <Main element={NewsCard} elementList={NewsCardList} isSaved={true} />
         </Route>
         <Route path='/'>
+          <Redirect to='/' />
           <Header searchForm={SearchForm}>
             <Navbar setIsOpen={setIsPopupOpen} />
           </Header>
