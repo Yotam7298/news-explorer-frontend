@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import bookmark from '../../images/bookmark.svg';
 import bookmarkHover from '../../images/bookmark_hover.svg';
 import remove from '../../images/remove.svg';
@@ -8,12 +8,6 @@ import removeHover from '../../images/remove_hover.svg';
 export default function NewsCard(props) {
   const [isHover, setIsHover] = React.useState(false);
   const [isMessageShow, setIsMessageShow] = React.useState(false);
-  const history = useHistory();
-
-  function articleClick(link) {
-    console.log(link);
-    history.push('http://google.com/');
-  }
 
   function functionHovered() {
     setIsHover(true);
@@ -28,14 +22,13 @@ export default function NewsCard(props) {
   }
 
   return (
-    <Link
-      to={{ pathname: 'https://google.com/' }}
-      target='_blank'
-      className='news-card'
-    >
+    <div className='news-card'>
       <div className='news-card__keyword'>{props.article.keyword}</div>
       {props.isSaved ? (
-        <div className='news-card__function'>
+        <div
+          onClick={(evt) => evt.stopPropagation()}
+          className='news-card__function'
+        >
           <img
             src={isHover ? removeHover : remove}
             alt='bookmark button'
@@ -53,7 +46,10 @@ export default function NewsCard(props) {
           </div>
         </div>
       ) : (
-        <div className='news-card__function'>
+        <div
+          onClick={(evt) => evt.stopPropagation()}
+          className='news-card__function'
+        >
           <img
             src={isHover ? bookmarkHover : bookmark}
             alt='bookmark button'
@@ -76,12 +72,16 @@ export default function NewsCard(props) {
         alt='illustrator image for news article'
         className='news-card__image'
       />
-      <div className='news-card__text'>
+      <Link
+        to={{ pathname: 'https://google.com/' }}
+        target='_blank'
+        className='news-card__text'
+      >
         <p className='news-card__date'>{props.article.date}</p>
         <h5 className='news-card__title'>{props.article.title}</h5>
         <p className='news-card__paragraph'>{props.article.text}</p>
         <p className='news-card__source'>{props.article.source}</p>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }

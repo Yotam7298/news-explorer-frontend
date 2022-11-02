@@ -6,10 +6,7 @@
   display: flex;
   flex-direction: column;
   font-family: Roboto, sans-serif;
-  text-decoration: none;
-  color: black;
   overflow: hidden;
-  cursor: pointer;
 }
 
 .news-card__keyword {
@@ -68,6 +65,8 @@
   text-align: left;
   font-family: Roboto-slab, sans-serif;
   font-weight: 400;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .news-card__date {
