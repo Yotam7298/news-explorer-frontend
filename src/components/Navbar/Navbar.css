@@ -1,121 +1,216 @@
 .navbar {
-    width: calc(100% - clamp(80px, calc(80px + 128 * ((100vw - 768px) / 672)), 208px));
-    height: clamp(56px, calc(66px + 14 * ((100vw - 768px) / 672)), 80px);
-    background-color: transparent;
-    padding: 0 clamp(40px, calc(40px + 64 * ((100vw - 768px) / 672)), 104px);
-    border-bottom: 1px solid white;
-    display: flex;
-    align-items: center;
-    font-family: Roboto, sans-serif;
-    line-height: 24px;
+  width: calc(
+    100% - clamp(80px, calc(80px + 128 * ((100vw - 768px) / 672)), 208px)
+  );
+  height: clamp(66px, calc(66px + 14 * ((100vw - 768px) / 672)), 80px);
+  background-color: transparent;
+  padding: 0 clamp(40px, calc(40px + 64 * ((100vw - 768px) / 672)), 104px);
+  border-bottom: 1px solid #c4c4c4;
+  display: flex;
+  align-items: center;
+  font-family: Roboto, sans-serif;
+  line-height: 24px;
 }
 
 .navbar__logo {
-    background-color: transparent;
-    margin-right: auto;
-    border: none;
-    font-family: Roboto-slab, sans-serif;
-    font-weight: 700;
-    font-size: 20px;
-    color: white;
-    text-decoration: none;
+  background-color: transparent;
+  margin-right: auto;
+  border: none;
+  font-family: Roboto-slab, sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: white;
+  text-decoration: none;
 }
 
 .navbar__link {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-weight: 500;
-    font-size: 18px;
-    color: #B6BCBF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 500;
+  font-size: 18px;
+  color: #b6bcbf;
 }
 
 .navbar__linkbox {
-    height: calc(100% - 3px);
-    border-bottom: 3px solid transparent;
-    padding: 0 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
+  height: calc(100% - 3px);
+  border-bottom: 3px solid transparent;
+  padding: 0 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
 }
 
 .navbar__linkbox:hover {
-    border-bottom-color: grey;
-    opacity: .7;
+  border-bottom-color: grey;
+  opacity: 0.7;
 }
 
 .navbar__linkbox_selected {
-    border-bottom-color: white;
+  border-bottom-color: white;
 }
 
 .navbar__linkbox_selected .navbar__link {
-    color: white;
+  color: white;
 }
 
 .navbar__signin {
-    width: clamp(128px, calc(128px + 24 * ((100vw - 768px) / 672)), 152px);
-    background-color: transparent;
-    margin-left: clamp(19px, calc(19px + 15 * ((100vw - 768px) / 672)), 34px);
-    padding: clamp(8px, calc(8px + 4 * ((100vw - 768px) / 672)), 12px) 12px;
-    border: 1px solid white;
-    border-radius: 100px;
-    font-weight: 500;
-    font-size: clamp(16px, calc(16px + 2 * ((100vw - 768px) / 672)), 18px);
-    line-height: 24px;
-    color: white;
+  width: clamp(128px, calc(128px + 24 * ((100vw - 768px) / 672)), 152px);
+  background-color: transparent;
+  margin-left: clamp(19px, calc(19px + 15 * ((100vw - 768px) / 672)), 34px);
+  padding: clamp(8px, calc(8px + 4 * ((100vw - 768px) / 672)), 12px) 12px;
+  border: 1px solid white;
+  border-radius: 100px;
+  font-weight: 500;
+  font-size: clamp(16px, calc(16px + 2 * ((100vw - 768px) / 672)), 18px);
+  line-height: 24px;
+  color: white;
 }
 
 .navbar__signin:hover {
-    cursor: pointer;
-    opacity: .6;
+  cursor: pointer;
+  opacity: 0.6;
 }
 
 .navbar__signout {
-    background-color: transparent;
-    margin-left: clamp(16px, calc(16px + 16 * ((100vw - 768px) / 672)), 32px);
-    padding: clamp(8px, calc(8px + 4 * ((100vw - 768px) / 672)), 12px) 12px;
-    border: 1px solid white;
-    border-radius: 100px;
-    display: flex;
-    align-items: center;
-    font-weight: 500;
-    font-size: clamp(16px, calc(16px + 2 * ((100vw - 768px) / 672)), 18px);
-    line-height: 24px;
-    color: white;
+  background-color: transparent;
+  margin-left: clamp(16px, calc(16px + 16 * ((100vw - 768px) / 672)), 32px);
+  padding: clamp(8px, calc(8px + 4 * ((100vw - 768px) / 672)), 12px) 12px;
+  border: 1px solid white;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: clamp(16px, calc(16px + 2 * ((100vw - 768px) / 672)), 18px);
+  line-height: 24px;
+  color: white;
 }
 
 .navbar__signout_saved {
-    border-color: black;
-    color: black;
+  border-color: black;
+  color: black;
 }
 
 .navbar__signout-icon {
-    margin-left: 15px;
+  margin-left: 15px;
 }
 
 .navbar__signout:hover {
-    cursor: pointer;
-    opacity: .6;
+  cursor: pointer;
+  opacity: 0.6;
 }
 
 .navbar_saved {
-    border-bottom-color: black;
+  border-bottom-color: black;
 }
 
 .navbar_saved .navbar__logo {
-    color: black;
+  color: black;
 }
 
 .navbar_saved .navbar__link {
-    color: black;
+  color: black;
 }
 
 .navbar_saved .navbar__linkbox_selected {
-    border-bottom-color: black;
+  border-bottom-color: black;
 }
 
 .navbar_saved .navbar__signout {
-    border-color: black;
-    color: black;
+  border-color: black;
+  color: black;
+}
+
+.navbar__menu-button {
+  display: none;
+}
+
+.navbar__menu {
+  display: none;
+}
+
+@media screen and (max-width: 767px) {
+  .navbar {
+    width: calc(100% - calc(32px + 48 * ((100vw - 320px) / 447)));
+    height: 56px;
+    padding: 0 calc(16px + 24 * ((100vw - 320px) / 447));
+  }
+
+  .navbar_menu-open {
+    background-color: black;
+    position: fixed;
+  }
+
+  .navbar__logo {
+    font-size: calc(16px + 4 * ((100vw - 320px) / 447));
+  }
+
+  .navbar__linkbox {
+    display: none;
+  }
+
+  .navbar__signin {
+    display: none;
+  }
+
+  .navbar__signin:last-of-type {
+    width: 288px;
+    height: 56px;
+    display: inline;
+    align-self: center;
+    font-size: 18px;
+  }
+
+  .navbar__signout {
+    display: none;
+  }
+
+  .navbar__menu-button {
+    background-image: url(../../images/mobile-menu_logout.svg);
+    background-color: transparent;
+    width: 24px;
+    height: 24px;
+    border: none;
+    padding: 0;
+    display: inline;
+  }
+
+  .navbar__menu-button:hover {
+    opacity: 0.7;
+    cursor: pointer;
+  }
+
+  .navbar__menu {
+    display: none;
+  }
+
+  .navabr__menu-link {
+    width: 288px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 56px;
+    text-decoration: none;
+    color: white;
+  }
+
+  .navabr__menu-link:hover {
+    opacity: 0.7;
+  }
+
+  .navbar_menu-open .navbar__menu {
+    background-color: black;
+    width: calc(100% - calc(32px + 48 * ((100vw - 320px) / 447)));
+    padding: 16px calc(16px + 24 * ((100vw - 320px) / 447)) 24px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    position: fixed;
+    top: 57px;
+    left: 0;
+  }
+
+  .navbar__menu_open:hover .navbar {
+    background-color: black;
+  }
 }

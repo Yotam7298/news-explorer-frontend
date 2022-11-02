@@ -4,8 +4,18 @@ import signOutSaved from '../../images/logout.svg';
 import signOutHome from '../../images/logout-white.svg';
 
 export default function Navbar(props) {
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
+  function toggleMenu() {
+    setIsMenuOpen(!isMenuOpen);
+  }
+
   return (
-    <nav className={`navbar ${props.saved ? 'navbar_saved' : ''}`}>
+    <nav
+      className={`navbar ${props.saved ? 'navbar_saved' : ''} ${
+        isMenuOpen ? 'navbar_menu-open' : ''
+      }`}
+    >
       <Link to='/' className='navbar__logo'>
         NewsExplorer
       </Link>
@@ -36,6 +46,21 @@ export default function Navbar(props) {
           src={props.saved ? signOutSaved : signOutHome}
         />
       </button>
+      <button onClick={toggleMenu} className='navbar__menu-button' />
+      <div className='navbar__menu navbar__menu_open'>
+        <NavLink to='/' className='navabr__menu-link'>
+          Home
+        </NavLink>
+        <NavLink to='/' className='navabr__menu-link'>
+          Saved News
+        </NavLink>
+        <button
+          onClick={() => props.setIsOpen(true)}
+          className='navbar__signin'
+        >
+          Sign In
+        </button>
+      </div>
     </nav>
   );
 }
