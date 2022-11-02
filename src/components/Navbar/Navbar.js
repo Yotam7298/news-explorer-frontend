@@ -2,6 +2,8 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import signOutSaved from '../../images/logout.svg';
 import signOutHome from '../../images/logout-white.svg';
+import menuHome from '../../images/mobile-menu.svg';
+import menuSaved from '../../images/mobile-menu_saved.svg';
 
 export default function Navbar(props) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -46,12 +48,17 @@ export default function Navbar(props) {
           src={props.saved ? signOutSaved : signOutHome}
         />
       </button>
-      <button onClick={toggleMenu} className='navbar__menu-button' />
+      <img
+        src={props.saved ? menuSaved : menuHome}
+        alt='menu toggle button'
+        onClick={toggleMenu}
+        className='navbar__menu-button'
+      />
       <div className='navbar__menu navbar__menu_open'>
-        <NavLink to='/' className='navabr__menu-link'>
+        <NavLink to='/' className='navbar__menu-link'>
           Home
         </NavLink>
-        <NavLink to='/' className='navabr__menu-link'>
+        <NavLink to='/saved-news' className='navbar__menu-link'>
           Saved News
         </NavLink>
         <button
