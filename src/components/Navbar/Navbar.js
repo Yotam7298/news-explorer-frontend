@@ -8,6 +8,11 @@ import menuSaved from '../../images/mobile-menu_saved.svg';
 export default function Navbar(props) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
+  function signButton() {
+    setIsMenuOpen(false);
+    props.setIsOpen(true);
+  }
+
   function toggleMenu() {
     setIsMenuOpen(!isMenuOpen);
   }
@@ -61,10 +66,7 @@ export default function Navbar(props) {
         <NavLink to='/saved-news' className='navbar__menu-link'>
           Saved News
         </NavLink>
-        <button
-          onClick={() => props.setIsOpen(true)}
-          className='navbar__signin'
-        >
+        <button onClick={signButton} className='navbar__signin'>
           Sign In
         </button>
       </div>

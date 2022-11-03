@@ -69,7 +69,7 @@ export default function NewsCard(props) {
       )}
       <img
         src={props.article.image}
-        alt='illustrator image for news article'
+        alt='illustration for news article'
         className='news-card__image'
       />
       <Link

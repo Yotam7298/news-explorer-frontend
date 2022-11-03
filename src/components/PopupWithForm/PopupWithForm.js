@@ -3,8 +3,8 @@ import useFormValidation from '../../hooks/formValidatorHook';
 
 export default function PopupWithForm(props) {
   const [isSignIn, setIsSignIn] = React.useState(true);
-  const [isSuccess, setIsSuccess] = React.useState(false);
-  const { values, handleChange, errors, isValid, setIsValid, resetForm } =
+  const [isSuccess, setIsSuccess] = React.useState(true);
+  const { values, handleChange, errors, isValid, resetForm } =
     useFormValidation();
 
   function switchForm() {
@@ -118,16 +118,19 @@ export default function PopupWithForm(props) {
               </button>
               <p className='popup__redirect'>
                 or{' '}
-                <a onClick={switchForm} className='popup__redirect-link'>
+                <button onClick={switchForm} className='popup__redirect-link'>
                   {isSignIn ? 'Sign Up' : 'Sign In'}
-                </a>
+                </button>
               </p>
             </fieldset>
           )}
           {isSuccess && (
-            <a onClick={successRedirect} className='popup__success-redirect'>
+            <button
+              onClick={successRedirect}
+              className='popup__success-redirect'
+            >
               Sign in
-            </a>
+            </button>
           )}
         </form>
       </div>

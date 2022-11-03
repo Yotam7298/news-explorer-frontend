@@ -1,6 +1,7 @@
 import React from 'react';
 
 export default function Main(props) {
+  // eslint-disable-next-line
   const [isLoading, setIsLoading] = React.useState(false);
 
   return (

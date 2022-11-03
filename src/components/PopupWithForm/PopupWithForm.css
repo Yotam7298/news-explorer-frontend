@@ -143,6 +143,9 @@
 }
 
 .popup__redirect-link {
+  background-color: transparent;
+  padding: 0;
+  border: none;
   color: #2f71e5;
 }
 
@@ -152,7 +155,10 @@
 }
 
 .popup__success-redirect {
+  background-color: transparent;
   margin-top: 14px;
+  padding: 0;
+  border: none;
   font-family: Inter, sans-serif;
   font-size: 18px;
   color: #2f71e5;
