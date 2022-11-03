@@ -1,45 +1,55 @@
 .main {
-    background-color: #F5F6F7;
-    width:100%;
+  background-color: #f5f6f7;
+  width: 100%;
 }
 
 .main__loading {
-    padding: clamp(62px, calc(62px + 18 * ((100vw - 768px) / 672)), 80px) 0;
+  padding: clamp(62px, calc(62px + 18 * ((100vw - 768px) / 672)), 80px) 0;
 }
 
 .main__loading-text {
-    font-family: Roboto, sans-serif;
-    font-size: 18px;
-    line-height: 24px;
-    color: #B6BCBF;
+  font-family: Roboto, sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  color: #b6bcbf;
 }
 
 .main__title {
-    margin: 0;
-    margin-left: clamp(40px, calc(40px + 64 * ((100vw - 768px) / 672)), 104px);
-    padding-top: clamp(40px, calc(40px + 40 * ((100vw - 768px) / 672)), 80px);
-    text-align: left;
-    font-family: Roboto-slab, sans-serif;
-    font-size: 40px;
-    line-height: 46px;
+  margin: 0;
+  margin-left: clamp(40px, calc(40px + 64 * ((100vw - 768px) / 672)), 104px);
+  padding-top: clamp(40px, calc(40px + 40 * ((100vw - 768px) / 672)), 80px);
+  text-align: left;
+  font-family: Roboto-slab, sans-serif;
+  font-size: clamp(30px, calc(30px + 10 * ((100vw - 768px) / 672)), 40px);
+  line-height: clamp(40px, calc(40px + 6 * ((100vw - 768px) / 672)), 46px);
 }
 
 .main__button {
-    background-color: white;
-    width: clamp(240px, calc(240px + 48 * ((100vw - 768px) / 672)), 288px);
-    height: clamp(56px, calc(56px + 8 * ((100vw - 768px) / 672)), 64px);
-    margin-bottom: clamp(40px, calc(40px + 40 * ((100vw - 768px) / 672)), 80px);
-    padding: 0;
-    border: none;
-    border-radius: 80px;
-    font-family: Roboto, sans-serif;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 24px;
+  background-color: white;
+  width: clamp(240px, calc(240px + 48 * ((100vw - 768px) / 672)), 288px);
+  height: clamp(56px, calc(56px + 8 * ((100vw - 768px) / 672)), 64px);
+  margin-bottom: clamp(40px, calc(40px + 40 * ((100vw - 768px) / 672)), 80px);
+  padding: 0;
+  border: none;
+  border-radius: 80px;
+  font-family: Roboto, sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
 }
 
 .main__button:hover {
-    background-color: #E8E8E8;
-    opacity: .9;
-    cursor: pointer;
+  background-color: #e8e8e8;
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 767px) {
+  .main__title {
+    margin-left: 16px;
+  }
+
+  .main__button {
+    width: 288px;
+  }
 }

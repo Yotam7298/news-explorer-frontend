@@ -1,9 +1,19 @@
 .cards-list {
-    width: calc(100% - clamp(80px, calc(80px + 128 * ((100vw - 768px) / 672)), 208px));
-    padding: clamp(32px, calc(32px + 32 * ((100vw - 768px) / 672)), 64px)
-            clamp(40px, calc(40px + 64 * ((100vw - 768px) / 672)), 104px);
-    display: grid;
-    justify-content: center;
-    grid-template-columns: max-content max-content max-content;
-    gap: clamp(8px, calc(8px + 8 * ((100vw - 768px) / 672)), 16px);
+  width: calc(
+    100% - clamp(80px, calc(80px + 128 * ((100vw - 768px) / 672)), 208px)
+  );
+  padding: clamp(32px, calc(32px + 32 * ((100vw - 768px) / 672)), 64px)
+    clamp(40px, calc(40px + 64 * ((100vw - 768px) / 672)), 104px);
+  display: grid;
+  justify-content: center;
+  grid-template-columns: max-content max-content max-content;
+  gap: clamp(8px, calc(8px + 8 * ((100vw - 768px) / 672)), 16px);
+}
+
+@media screen and (max-width: 767px) {
+  .cards-list {
+    padding: 58px auto 16px;
+    grid-template-columns: repeat(auto-fill, 288px);
+    gap: 10px;
+  }
 }
