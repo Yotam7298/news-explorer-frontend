@@ -31,7 +31,7 @@
   .footer {
     width: calc(100% - calc(32px + 32 * ((100vw - 320px) / 447)));
     height: 134px;
-    margin: 0 auto 22px;
+    margin: 20px auto 22px;
     display: grid;
     grid-auto-flow: dense;
     grid-template-rows: 1fr 1fr 1fr;
