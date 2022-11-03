@@ -6,13 +6,10 @@ export default function NewsCardList(props) {
     <div className='cards-list'>
       {articles &&
         articles.map((article) => {
-          return (
-            <props.cardTemplate
-              key={article._id}
-              article={article}
-              isSaved={props.isSaved}
-            />
-          );
+          return React.cloneElement(props.children, {
+            key: article._id,
+            article,
+          });
         })}
     </div>
   );

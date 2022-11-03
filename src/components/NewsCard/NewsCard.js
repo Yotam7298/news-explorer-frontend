@@ -24,7 +24,7 @@ export default function NewsCard(props) {
   return (
     <div className='news-card'>
       <div className='news-card__keyword'>{props.article.keyword}</div>
-      {props.isSaved ? (
+      {props.saved ? (
         <div
           onClick={(evt) => evt.stopPropagation()}
           className='news-card__function'

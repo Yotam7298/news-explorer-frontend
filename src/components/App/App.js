@@ -33,15 +33,24 @@ function App() {
       <Switch>
         <Route path='/saved-news'>
           <SavedNewsHeader>
-            <Navbar saved={true} setIsOpen={setIsPopupOpen} />
+            <Navbar saved setIsOpen={setIsPopupOpen} />
           </SavedNewsHeader>
-          <Main element={NewsCard} elementList={NewsCardList} isSaved={true} />
+          <Main saved>
+            <NewsCardList>
+              <NewsCard saved />
+            </NewsCardList>
+          </Main>
         </Route>
         <Route path='/'>
           <Redirect to='/' />
           <Header searchForm={SearchForm}>
             <Navbar setIsOpen={setIsPopupOpen} />
           </Header>
+          <Main isSaved={false}>
+            <NewsCardList>
+              <NewsCard />
+            </NewsCardList>
+          </Main>
           <About />
         </Route>
       </Switch>
