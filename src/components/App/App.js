@@ -4,7 +4,7 @@ import Navbar from '../Navbar/Navbar';
 import SearchForm from '../SearchForm/SearchForm';
 import SavedNewsHeader from '../SavedNewsHeader/SavedNewsHeader';
 import Main from '../Main/Main';
-// import Preloader from '../Preloader/Preloader';
+import Preloader from '../Preloader/Preloader';
 import About from '../About/About';
 import Footer from '../Footer/Footer';
 import NewsCard from '../NewsCard/NewsCard';
@@ -36,6 +36,7 @@ function App() {
             <Navbar saved setIsOpen={setIsPopupOpen} />
           </SavedNewsHeader>
           <Main saved>
+            <Preloader />
             <NewsCardList>
               <NewsCard saved />
             </NewsCardList>
@@ -43,10 +44,12 @@ function App() {
         </Route>
         <Route path='/'>
           <Redirect to='/' />
-          <Header searchForm={SearchForm}>
+          <Header>
             <Navbar setIsOpen={setIsPopupOpen} />
+            <SearchForm />
           </Header>
-          <Main isSaved={false}>
+          <Main>
+            <Preloader />
             <NewsCardList>
               <NewsCard />
             </NewsCardList>

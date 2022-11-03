@@ -211,6 +211,7 @@
 
   .navbar_saved {
     background-color: white;
+    top: 0;
   }
 
   .navbar_saved .navbar__menu {
