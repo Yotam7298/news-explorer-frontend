@@ -6,7 +6,6 @@ export default function Main(props) {
 
   return (
     <div className='main'>
-      {/* prettier-ignore */}
       {isLoading ? (
         props.saved ? (
           <div className='main__loading'>
@@ -28,6 +27,7 @@ export default function Main(props) {
           <button className='main__button'>Show more</button>
         </div>
       )}
+      {props.children[2]}
     </div>
   );
 }

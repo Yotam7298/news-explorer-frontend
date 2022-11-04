@@ -10,6 +10,7 @@ import Footer from '../Footer/Footer';
 import NewsCard from '../NewsCard/NewsCard';
 import NewsCardList from '../NewsCardList/NewscardList';
 import PopupWithForm from '../PopupWithForm/PopupWithForm';
+import NotFound from '../NotFound/NotFound';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
             <NewsCardList>
               <NewsCard saved />
             </NewsCardList>
+            <NotFound saved />
           </Main>
         </Route>
         <Route path='/'>
@@ -53,6 +55,7 @@ function App() {
             <NewsCardList>
               <NewsCard />
             </NewsCardList>
+            <NotFound />
           </Main>
           <About />
         </Route>

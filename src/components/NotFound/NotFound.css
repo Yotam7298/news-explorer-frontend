@@ -1,0 +1,23 @@
+.not-found {
+  padding: 86px 0 80px;
+  text-align: center;
+}
+
+.not-found__title {
+  margin: 0;
+  margin-top: 40px;
+  font-family: Roboto-slab, sans-serif;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 30px;
+  color: #1a1b22;
+}
+
+.not-found__paragraph {
+  margin: 16px auto 0;
+  width: clamp(288px, calc(288px + 142 * ((100vw - 768px) / 672)), 430px);
+  font-family: Roboto, sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  color: #b6bcbf;
+}
