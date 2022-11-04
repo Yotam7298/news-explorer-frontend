@@ -3,7 +3,7 @@ import useFormValidation from '../../hooks/formValidatorHook';
 
 export default function PopupWithForm(props) {
   const [isSignIn, setIsSignIn] = React.useState(true);
-  const [isSuccess, setIsSuccess] = React.useState(true);
+  const [isSuccess, setIsSuccess] = React.useState(false);
   const { values, handleChange, errors, isValid, resetForm } =
     useFormValidation();
 
@@ -50,7 +50,9 @@ export default function PopupWithForm(props) {
                 id='email'
                 name='email'
                 required
-                className='popup__input'
+                className={`popup__input ${
+                  errors.email ? 'popup__input_error' : ''
+                }`}
                 placeholder='Enter email'
               />
               <span
@@ -71,7 +73,9 @@ export default function PopupWithForm(props) {
                 name='password'
                 minLength={8}
                 required
-                className='popup__input'
+                className={`popup__input ${
+                  errors.password ? 'popup__input_error' : ''
+                }`}
                 placeholder='Enter password'
               />
               <span
@@ -95,7 +99,9 @@ export default function PopupWithForm(props) {
                     minLength={2}
                     maxLength={30}
                     required
-                    className='popup__input'
+                    className={`popup__input ${
+                      errors.username ? 'popup__input_error' : ''
+                    }`}
                     placeholder='Enter your username'
                   />
                   <span
