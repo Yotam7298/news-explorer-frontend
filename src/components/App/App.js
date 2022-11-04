@@ -37,7 +37,7 @@ function App() {
             <Navbar saved setIsOpen={setIsPopupOpen} />
           </SavedNewsHeader>
           <Main saved>
-            <Preloader />
+            <Preloader saved />
             <NewsCardList>
               <NewsCard saved />
             </NewsCardList>

@@ -8,6 +8,7 @@
   justify-content: center;
   grid-template-columns: max-content max-content max-content;
   gap: clamp(8px, calc(8px + 8 * ((100vw - 768px) / 672)), 16px);
+  list-style-type: none;
 }
 
 @media screen and (max-width: 767px) {

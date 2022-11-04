@@ -7,17 +7,7 @@ export default function Main(props) {
   return (
     <div className='main'>
       {isLoading ? (
-        props.saved ? (
-          <div className='main__loading'>
-            {props.children[0]}
-            <p className='main__loading-text'>Loading your news...</p>
-          </div>
-        ) : (
-          <div className='main__loading'>
-            {props.children[0]}
-            <p className='main__loading-text'>Searching for news...</p>
-          </div>
-        )
+        props.children[0]
       ) : props.saved ? (
         props.children[1]
       ) : (
@@ -27,6 +17,8 @@ export default function Main(props) {
           <button className='main__button'>Show more</button>
         </div>
       )}
+
+      {props.children[0]}
       {props.children[2]}
     </div>
   );

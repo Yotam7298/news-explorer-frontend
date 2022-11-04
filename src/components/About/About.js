@@ -14,8 +14,8 @@ export default function About() {
         <p className='about__paragraph'>
           This project was made by Yotam Yakov. I am web developer working with
           React and node.js with express.js for the API of this project.
-          <br />
-          <br />
+        </p>
+        <p className='about__paragraph'>
           This project was made as a final project for Masterschool -
           Practicum's web developer program where I have aquired all those
           skills, that could help create a web app for any customer by their

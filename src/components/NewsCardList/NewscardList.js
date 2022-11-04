@@ -3,14 +3,18 @@ import articles from '../../temp/articleData';
 
 export default function NewsCardList(props) {
   return (
-    <div className='cards-list'>
+    <ul className='cards-list'>
       {articles &&
         articles.map((article) => {
-          return React.cloneElement(props.children, {
-            key: article._id,
-            article,
-          });
+          return (
+            <li className='cards-list__card'>
+              {React.cloneElement(props.children, {
+                key: article._id,
+                article,
+              })}
+            </li>
+          );
         })}
-    </div>
+    </ul>
   );
 }

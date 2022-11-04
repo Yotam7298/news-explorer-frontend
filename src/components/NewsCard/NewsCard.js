@@ -2,12 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import bookmark from '../../images/bookmark.svg';
 import bookmarkHover from '../../images/bookmark_hover.svg';
+import bookmarkActive from '../../images/bookmark_active.svg';
 import remove from '../../images/remove.svg';
 import removeHover from '../../images/remove_hover.svg';
 
 export default function NewsCard(props) {
   const [isHover, setIsHover] = React.useState(false);
-  const [isMessageShow, setIsMessageShow] = React.useState(false);
 
   function functionHovered() {
     setIsHover(true);
@@ -17,12 +17,8 @@ export default function NewsCard(props) {
     setIsHover(false);
   }
 
-  function flipMessageShow() {
-    setIsMessageShow(!isMessageShow);
-  }
-
   return (
-    <div className='news-card'>
+    <article className='news-card'>
       <div className='news-card__keyword'>{props.article.keyword}</div>
       {props.saved ? (
         <div
@@ -34,12 +30,11 @@ export default function NewsCard(props) {
             alt='bookmark button'
             onMouseEnter={functionHovered}
             onMouseLeave={functionEndHover}
-            onClick={flipMessageShow}
             className='news-card__function-icon'
           />
           <div
             className={`news-card__function-message ${
-              isMessageShow ? 'news-card__function-message_show' : ''
+              isHover ? 'news-card__function-message_show' : ''
             }`}
           >
             Remove from saved
@@ -51,16 +46,21 @@ export default function NewsCard(props) {
           className='news-card__function'
         >
           <img
-            src={isHover ? bookmarkHover : bookmark}
+            src={
+              props.article.marked
+                ? bookmarkActive
+                : isHover
+                ? bookmarkHover
+                : bookmark
+            }
             alt='bookmark button'
             onMouseEnter={functionHovered}
             onMouseLeave={functionEndHover}
-            onClick={flipMessageShow}
             className='news-card__function-icon'
           />
           <div
             className={`news-card__function-message ${
-              isMessageShow ? 'news-card__function-message_show' : ''
+              isHover ? 'news-card__function-message_show' : ''
             }`}
           >
             Sign in to save article
@@ -82,6 +82,6 @@ export default function NewsCard(props) {
         <p className='news-card__paragraph'>{props.article.text}</p>
         <p className='news-card__source'>{props.article.source}</p>
       </Link>
-    </div>
+    </article>
   );
 }
