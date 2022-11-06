@@ -1,4 +1,8 @@
+// IMPORTS
+// React
 import React from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
+// Components
 import Header from '../Header/Header';
 import Navbar from '../Navbar/Navbar';
 import SearchForm from '../SearchForm/SearchForm';
@@ -11,7 +15,8 @@ import NewsCard from '../NewsCard/NewsCard';
 import NewsCardList from '../NewsCardList/NewscardList';
 import PopupWithForm from '../PopupWithForm/PopupWithForm';
 import NotFound from '../NotFound/NotFound';
-import { Switch, Route, Redirect } from 'react-router-dom';
+//APIs
+import mainApi from '../../utils/MainApi';
 
 function App() {
   const [isPopupOpen, setIsPopupOpen] = React.useState(false);
