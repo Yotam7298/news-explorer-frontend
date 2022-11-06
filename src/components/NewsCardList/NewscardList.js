@@ -7,7 +7,7 @@ export default function NewsCardList(props) {
       {articles &&
         articles.map((article) => {
           return (
-            <li className='cards-list__card'>
+            <li key={article._id} className='cards-list__card'>
               {React.cloneElement(props.children, {
                 key: article._id,
                 article,
