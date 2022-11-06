@@ -17,6 +17,7 @@ import PopupWithForm from '../PopupWithForm/PopupWithForm';
 import NotFound from '../NotFound/NotFound';
 //APIs
 import mainApi from '../../utils/MainApi';
+import searchArticles from '../../utils/NewsApi';
 
 function App() {
   const [isPopupOpen, setIsPopupOpen] = React.useState(false);
@@ -32,6 +33,8 @@ function App() {
 
     return () => document.removeEventListener('keydown', closeByEscape);
   }, []);
+
+  searchArticles();
 
   return (
     <div className='app'>
