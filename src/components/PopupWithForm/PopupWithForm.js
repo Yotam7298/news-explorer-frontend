@@ -4,6 +4,7 @@ import useFormValidation from '../../hooks/formValidatorHook';
 export default function PopupWithForm(props) {
   const [isSignIn, setIsSignIn] = React.useState(true);
   const [isSuccess, setIsSuccess] = React.useState(false);
+  const [apiError, setApiError] = React.useState('');
   const { values, handleChange, errors, isValid, resetForm } =
     useFormValidation();
 
@@ -16,8 +17,45 @@ export default function PopupWithForm(props) {
     setIsSuccess(false);
   }
 
+  function handleSignUp(evt) {
+    evt.preventDefault();
+
+    props
+      .signUpReq({
+        email: values.email,
+        password: values.password,
+        username: values.username,
+      })
+      .then(() => {
+        setIsSuccess(true);
+        setApiError('');
+      })
+      .catch((err) => {
+        props.reportError(err).then((data) => setApiError(data.message));
+      });
+  }
+
+  function handleSignIn(evt) {
+    evt.preventDefault();
+
+    props
+      .signInReq({
+        email: values.email,
+        password: values.password,
+      })
+      .then((jwt) => {
+        localStorage.setItem('jwt', jwt.token);
+        props.setIsOpen(false);
+        setApiError('');
+      })
+      .catch((err) => {
+        props.reportError(err).then((data) => setApiError(data.message));
+      });
+  }
+
   React.useEffect(() => {
     resetForm();
+    setApiError('');
   }, [props.isOpen, isSignIn]);
 
   return (
@@ -115,6 +153,7 @@ export default function PopupWithForm(props) {
               )}
               <button
                 type='submit'
+                onClick={isSignIn ? handleSignIn : handleSignUp}
                 disabled={!isValid}
                 className={`popup__submit ${
                   isValid ? '' : 'popup__submit_disabled'
@@ -128,6 +167,7 @@ export default function PopupWithForm(props) {
                   {isSignIn ? 'Sign Up' : 'Sign In'}
                 </button>
               </p>
+              {apiError && <p className='popup__api-error'>{apiError}</p>}
             </fieldset>
           )}
           {isSuccess && (

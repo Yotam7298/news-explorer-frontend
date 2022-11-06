@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useHistory } from 'react-router-dom';
 import signOutSaved from '../../images/logout.svg';
 import signOutHome from '../../images/logout-white.svg';
 import menuHome from '../../images/mobile-menu.svg';
@@ -7,6 +7,7 @@ import menuSaved from '../../images/mobile-menu_saved.svg';
 
 export default function Navbar(props) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const history = useHistory();
 
   function signButton() {
     setIsMenuOpen(false);
@@ -15,6 +16,12 @@ export default function Navbar(props) {
 
   function toggleMenu() {
     setIsMenuOpen(!isMenuOpen);
+  }
+
+  function signOut() {
+    localStorage.removeItem('jwt');
+    props.setIsLoggedIn(false);
+    history.push('/');
   }
 
   return (
@@ -34,25 +41,33 @@ export default function Navbar(props) {
       >
         <p className='navbar__link'>Home</p>
       </NavLink>
-      <NavLink
-        exact
-        to='/saved-news'
-        className='navbar__linkbox'
-        activeClassName='navbar__linkbox_selected'
-      >
-        <div className='navbar__link'>Saved Articles</div>
-      </NavLink>
-      <button onClick={() => props.setIsOpen(true)} className='navbar__signin'>
-        Sign In
-      </button>
-      <button className='navbar__signout'>
-        Elise
-        <img
-          className='navbar__signout-icon'
-          alt='Icon for logging out'
-          src={props.saved ? signOutSaved : signOutHome}
-        />
-      </button>
+      {props.isLoggedIn ? (
+        <NavLink
+          exact
+          to='/saved-news'
+          className='navbar__linkbox'
+          activeClassName='navbar__linkbox_selected'
+        >
+          <div className='navbar__link'>Saved Articles</div>
+        </NavLink>
+      ) : (
+        <button
+          onClick={() => props.setIsOpen(true)}
+          className='navbar__signin'
+        >
+          Sign In
+        </button>
+      )}
+      {props.isLoggedIn && (
+        <button onClick={signOut} className='navbar__signout'>
+          Elise
+          <img
+            className='navbar__signout-icon'
+            alt='Icon for logging out'
+            src={props.saved ? signOutSaved : signOutHome}
+          />
+        </button>
+      )}
       <img
         src={props.saved ? menuSaved : menuHome}
         alt='menu toggle button'
@@ -63,12 +78,31 @@ export default function Navbar(props) {
         <NavLink to='/' className='navbar__menu-link'>
           Home
         </NavLink>
-        <NavLink to='/saved-news' className='navbar__menu-link'>
-          Saved News
-        </NavLink>
-        <button onClick={signButton} className='navbar__signin'>
-          Sign In
-        </button>
+        {props.isLoggedIn ? (
+          <NavLink to='/saved-news' className='navbar__menu-link'>
+            Saved News
+          </NavLink>
+        ) : (
+          <button
+            onClick={signButton}
+            className='navbar__signin navbar__signin_logged'
+          >
+            Sign In
+          </button>
+        )}
+        {props.isLoggedIn && (
+          <button
+            onClick={signOut}
+            className='navbar__signout navbar__signout_logged'
+          >
+            Elise
+            <img
+              className='navbar__signout-icon'
+              alt='Icon for logging out'
+              src={props.saved ? signOutSaved : signOutHome}
+            />
+          </button>
+        )}
       </div>
     </nav>
   );

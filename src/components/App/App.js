@@ -20,6 +20,7 @@ import mainApi from '../../utils/MainApi';
 import searchArticles from '../../utils/NewsApi';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [isPopupOpen, setIsPopupOpen] = React.useState(false);
 
   React.useEffect(() => {
@@ -34,15 +35,30 @@ function App() {
     return () => document.removeEventListener('keydown', closeByEscape);
   }, []);
 
-  searchArticles();
+  React.useEffect(() => {
+    if (localStorage.getItem('jwt')) {
+      setIsLoggedIn(true);
+    }
+  });
 
   return (
     <div className='app'>
-      <PopupWithForm isOpen={isPopupOpen} setIsOpen={setIsPopupOpen} />
+      <PopupWithForm
+        isOpen={isPopupOpen}
+        setIsOpen={setIsPopupOpen}
+        signUpReq={mainApi.signUp.bind(mainApi)}
+        signInReq={mainApi.signIn.bind(mainApi)}
+        reportError={mainApi.reportError.bind(mainApi)}
+      />
       <Switch>
         <Route path='/saved-news'>
           <SavedNewsHeader>
-            <Navbar saved setIsOpen={setIsPopupOpen} />
+            <Navbar
+              saved
+              isLoggedIn={isLoggedIn}
+              setIsLoggedIn={setIsLoggedIn}
+              setIsOpen={setIsPopupOpen}
+            />
           </SavedNewsHeader>
           <Main saved>
             <Preloader saved />
@@ -55,7 +71,11 @@ function App() {
         <Route path='/'>
           <Redirect to='/' />
           <Header>
-            <Navbar setIsOpen={setIsPopupOpen} />
+            <Navbar
+              isLoggedIn={isLoggedIn}
+              setIsLoggedIn={setIsLoggedIn}
+              setIsOpen={setIsPopupOpen}
+            />
             <SearchForm />
           </Header>
           <Main>

@@ -12,9 +12,10 @@ class MainApi {
 
   reportError(err) {
     if (err.constructor === Response) {
-      err
-        .json()
-        .then((data) => console.log(`Error ${err.status} - ${data.message}`));
+      return err.json().then((data) => {
+        console.log(`Error ${err.status} - ${data.message}`);
+        return data;
+      });
     } else {
       console.log(err);
     }
