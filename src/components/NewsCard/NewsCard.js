@@ -77,7 +77,11 @@ export default function NewsCard(props) {
             onMouseEnter={functionHovered}
             onMouseLeave={functionEndHover}
             onClick={
-              isLoggedIn ? (isMarked ? undefined : markArticle) : undefined
+              isLoggedIn
+                ? isMarked
+                  ? undefined
+                  : markArticle
+                : props.setIsPopupOpen
             }
             className='news-card__function-icon'
           />

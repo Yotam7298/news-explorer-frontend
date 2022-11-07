@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import useFormValidation from '../../hooks/formValidatorHook';
 
 export default function PopupWithForm(props) {
@@ -7,6 +8,7 @@ export default function PopupWithForm(props) {
   const [apiError, setApiError] = React.useState('');
   const { values, handleChange, errors, isValid, resetForm } =
     useFormValidation();
+  const history = useHistory();
 
   function switchForm() {
     setIsSignIn(!isSignIn);
@@ -47,6 +49,7 @@ export default function PopupWithForm(props) {
         localStorage.setItem('jwt', jwt.token);
         props.setIsOpen(false);
         setApiError('');
+        history.go(0);
       })
       .catch((err) => {
         props.reportError(err).then((data) => setApiError(data.message));

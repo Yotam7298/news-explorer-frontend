@@ -48,7 +48,6 @@ function App() {
         setIsPopupOpen(false);
       }
     };
-
     document.addEventListener('keydown', closeByEscape);
 
     return () => document.removeEventListener('keydown', closeByEscape);
@@ -56,10 +55,12 @@ function App() {
 
   React.useEffect(() => {
     if (localStorage.getItem('jwt')) {
-      setIsLoggedIn(true);
       mainApi
         .getSelf()
-        .then((user) => setCurrentUser(user))
+        .then((user) => {
+          setCurrentUser(user);
+          setIsLoggedIn(true);
+        })
         .catch((err) => mainApi.reportError(err));
     }
   }, []);
@@ -124,6 +125,7 @@ function App() {
                     <NewsCard
                       bookmarkReq={mainApi.saveArticle.bind(mainApi)}
                       removeReq={mainApi.removeArticle.bind(mainApi)}
+                      setIsPopupOpen={() => setIsPopupOpen(true)}
                     />
                   </NewsCardList>
                   <NotFound />
