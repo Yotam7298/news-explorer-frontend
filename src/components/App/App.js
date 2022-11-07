@@ -20,15 +20,27 @@ import mainApi from '../../utils/MainApi';
 import searchArticles from '../../utils/NewsApi';
 // Contexts
 import LoggedInContext from '../../contexts/LoggedInContext';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 // Protected Route
 import ProtectedRoute from '../../utils/ProtectedRoute';
 
 function App() {
+  const [currentUser, setCurrentUser] = React.useState({});
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [isPopupOpen, setIsPopupOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [showResults, setShowResults] = React.useState(false);
-  const [searchResults, setSearchResults] = React.useState([]);
+  const [articles, setArticles] = React.useState([]);
+  const [savedArticles, setSavedArticles] = React.useState([]);
+
+  function getSavedArticles() {
+    setIsLoading(true);
+    mainApi
+      .getArticles()
+      .then((articles) => setSavedArticles(articles))
+      .catch((err) => mainApi.reportError(err))
+      .finally(() => setIsLoading(false));
+  }
 
   React.useEffect(() => {
     const closeByEscape = (evt) => {
@@ -45,71 +57,84 @@ function App() {
   React.useEffect(() => {
     if (localStorage.getItem('jwt')) {
       setIsLoggedIn(true);
+      mainApi
+        .getSelf()
+        .then((user) => setCurrentUser(user))
+        .catch((err) => mainApi.reportError(err));
     }
-  });
+  }, []);
 
   return (
     <LoggedInContext.Provider value={isLoggedIn}>
-      <div className='app'>
-        <PopupWithForm
-          isOpen={isPopupOpen}
-          setIsOpen={setIsPopupOpen}
-          signUpReq={mainApi.signUp.bind(mainApi)}
-          signInReq={mainApi.signIn.bind(mainApi)}
-          reportError={mainApi.reportError.bind(mainApi)}
-        />
-        <Switch>
-          <ProtectedRoute path='/saved-news'>
-            <SavedNewsHeader>
-              <Navbar
-                saved
-                setIsLoggedIn={setIsLoggedIn}
-                setIsOpen={setIsPopupOpen}
-              />
-            </SavedNewsHeader>
-            <Main saved isLoading={isLoading}>
-              <Preloader saved />
-              <NewsCardList>
-                <NewsCard
+      <CurrentUserContext.Provider value={currentUser}>
+        <div className='app'>
+          <PopupWithForm
+            isOpen={isPopupOpen}
+            setIsOpen={setIsPopupOpen}
+            signUpReq={mainApi.signUp.bind(mainApi)}
+            signInReq={mainApi.signIn.bind(mainApi)}
+            reportError={mainApi.reportError.bind(mainApi)}
+          />
+          <Switch>
+            <ProtectedRoute path='/saved-news'>
+              <SavedNewsHeader savedArticles={savedArticles}>
+                <Navbar
                   saved
-                  removeReq={mainApi.removeArticle.bind(mainApi)}
+                  setIsLoggedIn={setIsLoggedIn}
+                  setIsOpen={setIsPopupOpen}
                 />
-              </NewsCardList>
-              <NotFound saved />
-            </Main>
-          </ProtectedRoute>
-          <Route path='/'>
-            <Redirect to='/' />
-            <Header>
-              <Navbar
-                setIsLoggedIn={setIsLoggedIn}
-                setIsOpen={setIsPopupOpen}
-              />
-              <SearchForm
-                searchReq={searchArticles}
-                setSearchResults={setSearchResults}
-                setIsLoading={setIsLoading}
-                setShowResults={setShowResults}
-                reportError={mainApi.reportError.bind(mainApi)}
-              />
-            </Header>
-            {showResults && (
-              <Main isLoading={isLoading} searchResults={searchResults}>
-                <Preloader />
-                <NewsCardList searchResults={searchResults}>
+              </SavedNewsHeader>
+              <Main
+                saved
+                isLoading={isLoading}
+                articles={savedArticles}
+                getSavedArticles={getSavedArticles}
+              >
+                <Preloader saved />
+                <NewsCardList articles={savedArticles}>
                   <NewsCard
-                    bookmarkReq={mainApi.saveArticle.bind(mainApi)}
+                    saved
                     removeReq={mainApi.removeArticle.bind(mainApi)}
+                    reloadSavedArticles={getSavedArticles}
+                    reportError={mainApi.reportError.bind(mainApi)}
                   />
                 </NewsCardList>
-                <NotFound />
+                <NotFound saved />
               </Main>
-            )}
-            <About />
-          </Route>
-        </Switch>
-        <Footer />
-      </div>
+            </ProtectedRoute>
+            <Route path='/'>
+              <Redirect to='/' />
+              <Header>
+                <Navbar
+                  setIsLoggedIn={setIsLoggedIn}
+                  setIsOpen={setIsPopupOpen}
+                />
+                <SearchForm
+                  searchReq={searchArticles}
+                  setArticles={setArticles}
+                  setIsLoading={setIsLoading}
+                  setShowResults={setShowResults}
+                  reportError={mainApi.reportError.bind(mainApi)}
+                />
+              </Header>
+              {showResults && (
+                <Main isLoading={isLoading} articles={articles}>
+                  <Preloader />
+                  <NewsCardList articles={articles}>
+                    <NewsCard
+                      bookmarkReq={mainApi.saveArticle.bind(mainApi)}
+                      removeReq={mainApi.removeArticle.bind(mainApi)}
+                    />
+                  </NewsCardList>
+                  <NotFound />
+                </Main>
+              )}
+              <About />
+            </Route>
+          </Switch>
+          <Footer />
+        </div>
+      </CurrentUserContext.Provider>
     </LoggedInContext.Provider>
   );
 }

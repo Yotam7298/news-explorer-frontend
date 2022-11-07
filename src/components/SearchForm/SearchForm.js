@@ -2,6 +2,7 @@ import React from 'react';
 
 export default function SearchForm(props) {
   const [searchQuery, setSearchQuery] = React.useState('');
+  const [searchPreholder, setSearchPreholder] = React.useState('Enter topic');
 
   function handleChange(evt) {
     setSearchQuery(evt.target.value);
@@ -10,16 +11,25 @@ export default function SearchForm(props) {
   function submitSearch(evt) {
     evt.preventDefault();
 
-    props.setIsLoading(true);
-    props.setShowResults(true);
-    props
-      .searchReq(searchQuery)
-      .then((articles) => {
-        const newArticles = articles.map((article) => convertArticle(article));
-        props.setSearchResults(newArticles);
-      })
-      .catch((err) => props.reportError(err))
-      .finally(() => props.setIsLoading(false));
+    if (searchQuery) {
+      props.setIsLoading(true);
+      props.setArticles(true);
+      props
+        .searchReq(searchQuery)
+        .then((articles) => {
+          const newArticles = articles.map((article) =>
+            convertArticle(article)
+          );
+          props.setArticles(newArticles);
+        })
+        .catch((err) => props.reportError(err))
+        .finally(() => {
+          props.setIsLoading(false);
+          props.setShowResults(true);
+        });
+    } else {
+      setSearchPreholder('You have to enter a topic to search');
+    }
   }
 
   function convertDate(date) {
@@ -44,7 +54,7 @@ export default function SearchForm(props) {
     newArticle.title = article.title;
     newArticle.text = article.content;
     newArticle.source = article.source.name;
-    newArticle.keyword = 'Keyword';
+    newArticle.keyword = searchQuery;
 
     return newArticle;
   }
@@ -55,7 +65,7 @@ export default function SearchForm(props) {
         <input
           type='text'
           name='search'
-          placeholder='Enter topic'
+          placeholder={searchPreholder}
           onChange={handleChange}
           className='search-form__input'
         />

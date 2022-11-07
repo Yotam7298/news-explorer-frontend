@@ -1,5 +1,4 @@
 import React from 'react';
-import articles from '../../temp/articleData';
 
 export default function NewsCardList(props) {
   const [shownCards, setShownCards] = React.useState(3);
@@ -11,8 +10,8 @@ export default function NewsCardList(props) {
   return (
     <div className='cards-list'>
       <ul className='cards-list__list'>
-        {props.searchResults &&
-          props.searchResults.slice(0, shownCards).map((article, index) => {
+        {props.articles &&
+          props.articles.slice(0, shownCards).map((article, index) => {
             return (
               <li key={index} className='cards-list__card'>
                 {React.cloneElement(props.children, {
@@ -23,7 +22,7 @@ export default function NewsCardList(props) {
             );
           })}
       </ul>
-      {props.searchResults.length > shownCards && (
+      {props.articles.length > shownCards && (
         <button onClick={addCards} className='cards-list__button'>
           Show more
         </button>

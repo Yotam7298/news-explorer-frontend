@@ -9,6 +9,7 @@ import LoggedInContext from '../../contexts/LoggedInContext';
 
 export default function NewsCard(props) {
   const [isHover, setIsHover] = React.useState(false);
+  const [isMarked, setIsMarked] = React.useState(false);
   const isLoggedIn = React.useContext(LoggedInContext);
 
   function functionHovered() {
@@ -19,19 +20,31 @@ export default function NewsCard(props) {
     setIsHover(false);
   }
 
+  function markArticle() {
+    bookmarkArticle();
+    setIsMarked(true);
+  }
+
   function bookmarkArticle() {
     props.bookmarkReq(props.article);
   }
 
   function removeArticle() {
-    props.removeReq(props.article._id);
+    props
+      .removeReq(props.article._id)
+      .then(() => {
+        props.reloadSavedArticles();
+      })
+      .catch((err) => props.reportError(err));
   }
 
   return (
     <article className='news-card'>
-      <div className='news-card__keyword'>
-        {props.article.keyword || 'Keyword'}
-      </div>
+      {props.saved && (
+        <div className='news-card__keyword'>
+          {props.article.keyword || 'Keyword'}
+        </div>
+      )}
       {props.saved ? (
         <div
           onClick={(evt) => evt.stopPropagation()}
@@ -59,17 +72,13 @@ export default function NewsCard(props) {
           className='news-card__function'
         >
           <img
-            src={
-              props.article.marked
-                ? bookmarkActive
-                : isHover
-                ? bookmarkHover
-                : bookmark
-            }
+            src={isMarked ? bookmarkActive : isHover ? bookmarkHover : bookmark}
             alt='bookmark button'
             onMouseEnter={functionHovered}
             onMouseLeave={functionEndHover}
-            onClick={isLoggedIn ? bookmarkArticle : undefined}
+            onClick={
+              isLoggedIn ? (isMarked ? undefined : markArticle) : undefined
+            }
             className='news-card__function-icon'
           />
           {!isLoggedIn && (
