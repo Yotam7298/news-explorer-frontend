@@ -5,9 +5,11 @@ import bookmarkHover from '../../images/bookmark_hover.svg';
 import bookmarkActive from '../../images/bookmark_active.svg';
 import remove from '../../images/remove.svg';
 import removeHover from '../../images/remove_hover.svg';
+import LoggedInContext from '../../contexts/LoggedInContext';
 
 export default function NewsCard(props) {
   const [isHover, setIsHover] = React.useState(false);
+  const isLoggedIn = React.useContext(LoggedInContext);
 
   function functionHovered() {
     setIsHover(true);
@@ -15,6 +17,14 @@ export default function NewsCard(props) {
 
   function functionEndHover() {
     setIsHover(false);
+  }
+
+  function bookmarkArticle() {
+    props.bookmarkReq(props.article);
+  }
+
+  function removeArticle() {
+    props.removeReq(props.article._id);
   }
 
   return (
@@ -32,6 +42,7 @@ export default function NewsCard(props) {
             alt='remove button'
             onMouseEnter={functionHovered}
             onMouseLeave={functionEndHover}
+            onClick={removeArticle}
             className='news-card__function-icon'
           />
           <div
@@ -58,15 +69,18 @@ export default function NewsCard(props) {
             alt='bookmark button'
             onMouseEnter={functionHovered}
             onMouseLeave={functionEndHover}
+            onClick={isLoggedIn ? bookmarkArticle : undefined}
             className='news-card__function-icon'
           />
-          <div
-            className={`news-card__function-message ${
-              isHover ? 'news-card__function-message_show' : ''
-            }`}
-          >
-            Sign in to save article
-          </div>
+          {!isLoggedIn && (
+            <div
+              className={`news-card__function-message ${
+                isHover ? 'news-card__function-message_show' : ''
+              }`}
+            >
+              Sign in to save article
+            </div>
+          )}
         </div>
       )}
       <img

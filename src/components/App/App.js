@@ -26,6 +26,8 @@ import ProtectedRoute from '../../utils/ProtectedRoute';
 function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [isPopupOpen, setIsPopupOpen] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [showResults, setShowResults] = React.useState(false);
   const [searchResults, setSearchResults] = React.useState([]);
 
   React.useEffect(() => {
@@ -65,10 +67,13 @@ function App() {
                 setIsOpen={setIsPopupOpen}
               />
             </SavedNewsHeader>
-            <Main saved>
+            <Main saved isLoading={isLoading}>
               <Preloader saved />
               <NewsCardList>
-                <NewsCard saved />
+                <NewsCard
+                  saved
+                  removeReq={mainApi.removeArticle.bind(mainApi)}
+                />
               </NewsCardList>
               <NotFound saved />
             </Main>
@@ -83,15 +88,23 @@ function App() {
               <SearchForm
                 searchReq={searchArticles}
                 setSearchResults={setSearchResults}
+                setIsLoading={setIsLoading}
+                setShowResults={setShowResults}
+                reportError={mainApi.reportError.bind(mainApi)}
               />
             </Header>
-            <Main>
-              <Preloader />
-              <NewsCardList searchResults={searchResults}>
-                <NewsCard />
-              </NewsCardList>
-              <NotFound />
-            </Main>
+            {showResults && (
+              <Main isLoading={isLoading} searchResults={searchResults}>
+                <Preloader />
+                <NewsCardList searchResults={searchResults}>
+                  <NewsCard
+                    bookmarkReq={mainApi.saveArticle.bind(mainApi)}
+                    removeReq={mainApi.removeArticle.bind(mainApi)}
+                  />
+                </NewsCardList>
+                <NotFound />
+              </Main>
+            )}
             <About />
           </Route>
         </Switch>

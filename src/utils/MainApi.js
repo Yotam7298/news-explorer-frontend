@@ -63,11 +63,11 @@ class MainApi {
   }
 
   saveArticle(article) {
-    return this._request('articles', 'POST', article);
+    return this._request('/articles', 'POST', article);
   }
 
   removeArticle(articleId) {
-    return this._request(`articles/${articleId}`, 'DELETE');
+    return this._request(`/articles/${articleId}`, 'DELETE');
   }
 }
 

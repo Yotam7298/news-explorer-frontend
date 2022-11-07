@@ -2,55 +2,32 @@ import React from 'react';
 import articles from '../../temp/articleData';
 
 export default function NewsCardList(props) {
-  const [fixedArticles, setFixedArticles] = React.useState([]);
+  const [shownCards, setShownCards] = React.useState(3);
 
-  function rearrangeDate(date) {
-    const year = date.slice(0, 4);
-    const day = Number(date.slice(8, 10));
-    const monthNumber = Number(date.slice(5, 7));
-
-    const dateClass = new Date();
-
-    dateClass.setMonth(monthNumber - 1);
-
-    const monthName = dateClass.toLocaleString('en-US', { month: 'long' });
-
-    return `${monthName} ${day}, ${year}`;
+  function addCards() {
+    setShownCards(shownCards + 3);
   }
 
-  rearrangeDate('2022-11-06');
-
-  React.useEffect(() => {
-    if (props.searchResults) {
-      const newArticles = props.searchResults.map((article) => {
-        let newArticle = {};
-
-        newArticle.image = article.urlToImage;
-        newArticle.link = article.url;
-        newArticle.date = rearrangeDate(article.publishedAt);
-        newArticle.title = article.title;
-        newArticle.text = article.content;
-        newArticle.source = article.source.name;
-
-        return newArticle;
-      });
-      setFixedArticles(newArticles);
-    }
-  }, [props.searchResults]);
-
   return (
-    <ul className='cards-list'>
-      {fixedArticles &&
-        fixedArticles.map((article, index) => {
-          return (
-            <li key={index} className='cards-list__card'>
-              {React.cloneElement(props.children, {
-                key: index,
-                article,
-              })}
-            </li>
-          );
-        })}
-    </ul>
+    <div className='cards-list'>
+      <ul className='cards-list__list'>
+        {props.searchResults &&
+          props.searchResults.slice(0, shownCards).map((article, index) => {
+            return (
+              <li key={index} className='cards-list__card'>
+                {React.cloneElement(props.children, {
+                  key: index,
+                  article,
+                })}
+              </li>
+            );
+          })}
+      </ul>
+      {props.searchResults.length > shownCards && (
+        <button onClick={addCards} className='cards-list__button'>
+          Show more
+        </button>
+      )}
+    </div>
   );
 }
