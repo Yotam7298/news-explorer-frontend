@@ -4,8 +4,10 @@ import signOutSaved from '../../images/logout.svg';
 import signOutHome from '../../images/logout-white.svg';
 import menuHome from '../../images/mobile-menu.svg';
 import menuSaved from '../../images/mobile-menu_saved.svg';
+import LoggedInContext from '../../contexts/LoggedInContext';
 
 export default function Navbar(props) {
+  const isLoggedIn = React.useContext(LoggedInContext);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const history = useHistory();
 
@@ -41,7 +43,7 @@ export default function Navbar(props) {
       >
         <p className='navbar__link'>Home</p>
       </NavLink>
-      {props.isLoggedIn ? (
+      {isLoggedIn ? (
         <NavLink
           exact
           to='/saved-news'
@@ -58,7 +60,7 @@ export default function Navbar(props) {
           Sign In
         </button>
       )}
-      {props.isLoggedIn && (
+      {isLoggedIn && (
         <button onClick={signOut} className='navbar__signout'>
           Elise
           <img
@@ -78,7 +80,7 @@ export default function Navbar(props) {
         <NavLink to='/' className='navbar__menu-link'>
           Home
         </NavLink>
-        {props.isLoggedIn ? (
+        {isLoggedIn ? (
           <NavLink to='/saved-news' className='navbar__menu-link'>
             Saved News
           </NavLink>
@@ -90,7 +92,7 @@ export default function Navbar(props) {
             Sign In
           </button>
         )}
-        {props.isLoggedIn && (
+        {isLoggedIn && (
           <button
             onClick={signOut}
             className='navbar__signout navbar__signout_logged'

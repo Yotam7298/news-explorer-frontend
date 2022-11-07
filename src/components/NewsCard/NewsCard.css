@@ -52,7 +52,8 @@
 
 .news-card__image {
   width: 100%;
-  max-height: clamp(224px, calc(224px + 176 * ((100vw - 768px) / 672)), 400px);
+  height: clamp(224px, calc(224px + 176 * ((100vw - 768px) / 672)), 400px);
+  object-fit: cover;
 }
 
 .news-card__text {

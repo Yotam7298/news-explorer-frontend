@@ -19,7 +19,9 @@ export default function NewsCard(props) {
 
   return (
     <article className='news-card'>
-      <div className='news-card__keyword'>{props.article.keyword}</div>
+      <div className='news-card__keyword'>
+        {props.article.keyword || 'Keyword'}
+      </div>
       {props.saved ? (
         <div
           onClick={(evt) => evt.stopPropagation()}
@@ -27,7 +29,7 @@ export default function NewsCard(props) {
         >
           <img
             src={isHover ? removeHover : remove}
-            alt='bookmark button'
+            alt='remove button'
             onMouseEnter={functionHovered}
             onMouseLeave={functionEndHover}
             className='news-card__function-icon'
@@ -73,7 +75,7 @@ export default function NewsCard(props) {
         className='news-card__image'
       />
       <Link
-        to={{ pathname: 'https://google.com/' }}
+        to={{ pathname: props.article.link }}
         target='_blank'
         className='news-card__text'
       >
