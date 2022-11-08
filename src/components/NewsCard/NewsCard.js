@@ -1,21 +1,27 @@
+// Imports
+// React
 import React from 'react';
 import { Link } from 'react-router-dom';
+// Images
 import bookmark from '../../images/bookmark.svg';
 import bookmarkHover from '../../images/bookmark_hover.svg';
 import bookmarkActive from '../../images/bookmark_active.svg';
 import remove from '../../images/remove.svg';
 import removeHover from '../../images/remove_hover.svg';
+// Contexts
 import LoggedInContext from '../../contexts/LoggedInContext';
 
 export default function NewsCard(props) {
+  // State Variables
   const [isHover, setIsHover] = React.useState(false);
   const [isMarked, setIsMarked] = React.useState(false);
   const [articleId, setArticleId] = React.useState('');
+  // Contexts consts
   const isLoggedIn = React.useContext(LoggedInContext);
 
+  // Functions
   function updateLocalStorage(url, options) {
     const currentArticles = JSON.parse(localStorage.getItem('articles'));
-    console.log(currentArticles);
     const updatedArticles = currentArticles.map((article) => {
       if (article.link === url) {
         article._id = options._id;
@@ -23,7 +29,6 @@ export default function NewsCard(props) {
       }
       return article;
     });
-    console.log(updatedArticles);
     localStorage.removeItem('articles');
     localStorage.setItem('articles', JSON.stringify(updatedArticles));
   }
@@ -36,13 +41,16 @@ export default function NewsCard(props) {
     setIsHover(false);
   }
 
+  function openSignIn() {
+    props.setIsPopupOpen(true);
+  }
+
   function addArticle() {
     const article = { ...props.article };
     delete article._id;
     delete article.marked;
 
     props.bookmarkReq(article).then((article) => {
-      console.log(article);
       setArticleId(article._id);
       setIsMarked(true);
       updateLocalStorage(article.link, { _id: article._id, marked: true });
@@ -63,6 +71,7 @@ export default function NewsCard(props) {
     });
   }
 
+  // useEffects
   React.useEffect(() => {
     setIsMarked(props.article.marked);
   }, []);
@@ -116,11 +125,7 @@ export default function NewsCard(props) {
             onMouseEnter={functionHovered}
             onMouseLeave={functionEndHover}
             onClick={
-              isLoggedIn
-                ? isMarked
-                  ? removeArticle
-                  : addArticle
-                : props.setIsPopupOpen
+              isLoggedIn ? (isMarked ? removeArticle : addArticle) : openSignIn
             }
             className='news-card__function-icon'
           />

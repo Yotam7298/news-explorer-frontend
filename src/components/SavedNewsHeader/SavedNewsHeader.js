@@ -1,11 +1,16 @@
+// Imports
+// React
 import React from 'react';
+// Contexts
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 import SavedArticlesContext from '../../contexts/SavedArticlesContext';
 
 export default function SavedNewsHeader(props) {
+  // Contexts consts
   const currentUser = React.useContext(CurrentUserContext);
   const savedArticles = React.useContext(SavedArticlesContext);
 
+  // Functions
   function keywords() {
     let keywords = [];
     let keywordsObj = {};
@@ -37,7 +42,7 @@ export default function SavedNewsHeader(props) {
     }
   }
 
-  const keywordsText = () => {
+  function keywordsText() {
     const { max, secondMax, length } = keywords();
     switch (length) {
       case 0:
@@ -51,7 +56,7 @@ export default function SavedNewsHeader(props) {
       default:
         return `${max}, ${secondMax}, and ${length - 2} others`;
     }
-  };
+  }
 
   return (
     <div className='saved-header'>

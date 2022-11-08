@@ -1,10 +1,16 @@
+// Imports
+// React
 import React from 'react';
+// Contexts
 import SavedArticlesContext from '../../contexts/SavedArticlesContext';
 
 export default function Main(props) {
+  // Contexts consts
   const savedArticles = React.useContext(SavedArticlesContext);
+  // Variables
   let articles = JSON.parse(localStorage.getItem('articles'));
 
+  // useEffect
   React.useEffect(() => {
     if (props.saved) {
       props.getSavedArticles();

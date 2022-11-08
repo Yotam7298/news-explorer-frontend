@@ -1,8 +1,12 @@
+// Imports
+// React
 import React from 'react';
 
 export default function NewsCardList(props) {
+  // State Variables
   const [shownCards, setShownCards] = React.useState(3);
 
+  // Functions
   function addCards() {
     setShownCards(shownCards + 3);
   }

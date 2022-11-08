@@ -1,11 +1,17 @@
+// Imports
+// React
 import React from 'react';
+// Contexts
 import SavedArticlesContext from '../../contexts/SavedArticlesContext';
 
 export default function SearchForm(props) {
+  // State Variables
   const [searchQuery, setSearchQuery] = React.useState('');
   const [searchPreholder, setSearchPreholder] = React.useState('Enter topic');
+  // Contexts consts
   const savedArticles = React.useContext(SavedArticlesContext);
 
+  // Functions
   function handleChange(evt) {
     setSearchQuery(evt.target.value);
   }
@@ -17,6 +23,7 @@ export default function SearchForm(props) {
       props.setIsLoading(true);
       props.setArticles(true);
       setSearchPreholder('Enter topic');
+
       props
         .searchReq(searchQuery)
         .then((articles) => {

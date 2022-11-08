@@ -1,18 +1,26 @@
+// Imports
+// React
 import React from 'react';
 import { Link, NavLink, useHistory } from 'react-router-dom';
+//Images
 import signOutSaved from '../../images/logout.svg';
 import signOutHome from '../../images/logout-white.svg';
 import menuHome from '../../images/mobile-menu.svg';
 import menuSaved from '../../images/mobile-menu_saved.svg';
+// Contexts
 import LoggedInContext from '../../contexts/LoggedInContext';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 export default function Navbar(props) {
+  // Contexts consts
   const isLoggedIn = React.useContext(LoggedInContext);
   const currentUser = React.useContext(CurrentUserContext);
+  //State Variables
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  // History
   const history = useHistory();
 
+  // Functions
   function signButton() {
     setIsMenuOpen(false);
     props.setIsOpen(true);

@@ -1,4 +1,7 @@
+// Imports
+// React
 import React from 'react';
+// Images
 import notFoundImage from '../../images/not-found.svg';
 
 export default function NotFound(props) {

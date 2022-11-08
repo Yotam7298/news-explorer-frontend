@@ -1,24 +1,36 @@
+// Imports
+// React
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+// Form Validation
 import useFormValidation from '../../hooks/formValidatorHook';
 
 export default function PopupWithForm(props) {
+  // State Variables
   const [isSignIn, setIsSignIn] = React.useState(true);
   const [isSuccess, setIsSuccess] = React.useState(false);
   const [apiError, setApiError] = React.useState('');
+
+  //Form Validation consts
   const { values, handleChange, errors, isValid, resetForm } =
     useFormValidation();
+
+  // History
   const history = useHistory();
 
+  //Functions
+  //Switch Form
   function switchForm() {
     setIsSignIn(!isSignIn);
   }
 
+  // Success SignUp
   function successRedirect() {
     setIsSignIn(true);
     setIsSuccess(false);
   }
 
+  // Submits
   function handleSignUp(evt) {
     evt.preventDefault();
 
@@ -56,6 +68,7 @@ export default function PopupWithForm(props) {
       });
   }
 
+  // useEffect
   React.useEffect(() => {
     resetForm();
     setApiError('');

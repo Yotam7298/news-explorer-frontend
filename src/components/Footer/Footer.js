@@ -1,4 +1,7 @@
+// Imports
+// React
 import React from 'react';
+// Images
 import githubIcon from '../../images/github.svg';
 import facebookIcon from '../../images/facebook.svg';
 

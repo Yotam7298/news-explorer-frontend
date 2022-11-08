@@ -1,4 +1,4 @@
-// IMPORTS
+// Imports
 // React
 import React from 'react';
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
@@ -26,11 +26,16 @@ import SavedArticlesContext from '../../contexts/SavedArticlesContext';
 import ProtectedRoute from '../../utils/ProtectedRoute';
 
 function App() {
+  // State Variables
+  // User
   const [currentUser, setCurrentUser] = React.useState({});
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  // Popup
   const [isPopupOpen, setIsPopupOpen] = React.useState(false);
+  // Server
   const [isLoading, setIsLoading] = React.useState(false);
   const [isServerError, setIsServerError] = React.useState(false);
+  // Articles
   const [showResults, setShowResults] = React.useState(true);
   const [articles, setArticles] = React.useState([]);
   const [savedArticles, setSavedArticles] = React.useState([]);
@@ -53,6 +58,8 @@ function App() {
       .finally(() => setIsLoading(false));
   }
 
+  // useEffects:
+  // Close popup
   React.useEffect(() => {
     const closeByEscape = (evt) => {
       if (evt.key === 'Escape') {
@@ -64,6 +71,7 @@ function App() {
     return () => document.removeEventListener('keydown', closeByEscape);
   }, []);
 
+  // JWT check
   React.useEffect(() => {
     if (localStorage.getItem('jwt')) {
       mainApi
@@ -150,7 +158,7 @@ function App() {
                         bookmarkReq={mainApi.saveArticle.bind(mainApi)}
                         removeReq={mainApi.removeArticle.bind(mainApi)}
                         reportError={mainApi.reportError.bind(mainApi)}
-                        setIsPopupOpen={() => setIsPopupOpen(true)}
+                        setIsPopupOpen={setIsPopupOpen}
                         setArticles={setArticles}
                         getSavedArticles={getSavedArticles}
                       />
