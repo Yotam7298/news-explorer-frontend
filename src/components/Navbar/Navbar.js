@@ -5,9 +5,11 @@ import signOutHome from '../../images/logout-white.svg';
 import menuHome from '../../images/mobile-menu.svg';
 import menuSaved from '../../images/mobile-menu_saved.svg';
 import LoggedInContext from '../../contexts/LoggedInContext';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 export default function Navbar(props) {
   const isLoggedIn = React.useContext(LoggedInContext);
+  const currentUser = React.useContext(CurrentUserContext);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const history = useHistory();
 
@@ -62,7 +64,7 @@ export default function Navbar(props) {
       )}
       {isLoggedIn && (
         <button onClick={signOut} className='navbar__signout'>
-          Elise
+          {currentUser.name}
           <img
             className='navbar__signout-icon'
             alt='Icon for logging out'
