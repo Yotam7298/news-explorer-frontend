@@ -1,8 +1,10 @@
 import React from 'react';
+import SavedArticlesContext from '../../contexts/SavedArticlesContext';
 
 export default function SearchForm(props) {
   const [searchQuery, setSearchQuery] = React.useState('');
   const [searchPreholder, setSearchPreholder] = React.useState('Enter topic');
+  const savedArticles = React.useContext(SavedArticlesContext);
 
   function handleChange(evt) {
     setSearchQuery(evt.target.value);
@@ -20,7 +22,10 @@ export default function SearchForm(props) {
           const newArticles = articles.map((article) =>
             convertArticle(article)
           );
+          localStorage.removeItem('articles');
+          localStorage.setItem('articles', JSON.stringify(newArticles));
           props.setArticles(newArticles);
+          props.getSavedArticles();
         })
         .catch((err) => props.reportError(err))
         .finally(() => {
@@ -55,6 +60,13 @@ export default function SearchForm(props) {
     newArticle.text = article.content;
     newArticle.source = article.source.name;
     newArticle.keyword = searchQuery;
+
+    const savedArticle = savedArticles.find((art) => art.link === article.url);
+
+    if (savedArticle) {
+      newArticle.marked = true;
+      newArticle._id = savedArticle._id;
+    }
 
     return newArticle;
   }

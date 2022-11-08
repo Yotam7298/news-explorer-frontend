@@ -1,22 +1,29 @@
 import React from 'react';
+import SavedArticlesContext from '../../contexts/SavedArticlesContext';
 
 export default function Main(props) {
+  const articles = JSON.parse(localStorage.getItem('articles'));
+  const savedArticles = React.useContext(SavedArticlesContext);
+
   React.useEffect(() => {
-    if (props.getSavedArticles) {
+    if (props.saved) {
       props.getSavedArticles();
+    } else {
+      const articles = JSON.parse(localStorage.getItem('articles'));
     }
   }, []);
+
   return (
     <div className='main'>
       {props.isLoading ? (
         props.children[0]
       ) : props.saved ? (
         <div className='main__content'>
-          {props.articles.length ? props.children[1] : props.children[2]}
+          {savedArticles.length ? props.children[1] : props.children[2]}
         </div>
       ) : (
         <div className='main__content'>
-          {props.articles.length ? (
+          {articles ? (
             <div>
               <h3 className='main__title'>Search results</h3>
               {props.children[1]}

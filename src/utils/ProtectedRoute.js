@@ -5,8 +5,6 @@ import LoggedInContext from '../contexts/LoggedInContext';
 export default function ProtectedRoute({ children, ...props }) {
   const isLoggedIn = React.useContext(LoggedInContext);
   return (
-    <Route {...props}>
-      {isLoggedIn ? children : <Redirect to={'/signin'} />}
-    </Route>
+    <Route {...props}>{isLoggedIn ? children : <Redirect to={'/'} />}</Route>
   );
 }

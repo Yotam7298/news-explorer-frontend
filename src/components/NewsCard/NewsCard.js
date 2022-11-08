@@ -10,7 +10,23 @@ import LoggedInContext from '../../contexts/LoggedInContext';
 export default function NewsCard(props) {
   const [isHover, setIsHover] = React.useState(false);
   const [isMarked, setIsMarked] = React.useState(false);
+  const [articleId, setArticleId] = React.useState('');
   const isLoggedIn = React.useContext(LoggedInContext);
+
+  function updateLocalStorage(url, options) {
+    const currentArticles = JSON.parse(localStorage.getItem('articles'));
+    console.log(currentArticles);
+    const updatedArticles = currentArticles.map((article) => {
+      if (article.link === url) {
+        article._id = options._id;
+        article.marked = options.marked;
+      }
+      return article;
+    });
+    console.log(updatedArticles);
+    localStorage.removeItem('articles');
+    localStorage.setItem('articles', JSON.stringify(updatedArticles));
+  }
 
   function functionHovered() {
     setIsHover(true);
@@ -20,23 +36,36 @@ export default function NewsCard(props) {
     setIsHover(false);
   }
 
-  function markArticle() {
-    bookmarkArticle();
-    setIsMarked(true);
-  }
+  function addArticle() {
+    const article = { ...props.article };
+    delete article._id;
+    delete article.marked;
 
-  function bookmarkArticle() {
-    props.bookmarkReq(props.article);
+    props.bookmarkReq(article).then((article) => {
+      console.log(article);
+      setArticleId(article._id);
+      setIsMarked(true);
+      updateLocalStorage(article.link, { _id: article._id, marked: true });
+    });
   }
 
   function removeArticle() {
-    props
-      .removeReq(props.article._id)
-      .then(() => {
+    const thisArticleId = articleId || props.article._id;
+    props.removeReq(thisArticleId).then(() => {
+      setIsMarked(false);
+      updateLocalStorage(props.article.link, {
+        _id: thisArticleId,
+        marked: false,
+      });
+      if (props.saved) {
         props.reloadSavedArticles();
-      })
-      .catch((err) => props.reportError(err));
+      }
+    });
   }
+
+  React.useEffect(() => {
+    setIsMarked(props.article.marked);
+  }, []);
 
   return (
     <article className='news-card'>
@@ -79,8 +108,8 @@ export default function NewsCard(props) {
             onClick={
               isLoggedIn
                 ? isMarked
-                  ? undefined
-                  : markArticle
+                  ? removeArticle
+                  : addArticle
                 : props.setIsPopupOpen
             }
             className='news-card__function-icon'
