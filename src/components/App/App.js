@@ -30,6 +30,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [isPopupOpen, setIsPopupOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isServerError, setIsServerError] = React.useState(false);
   const [showResults, setShowResults] = React.useState(true);
   const [articles, setArticles] = React.useState([]);
   const [savedArticles, setSavedArticles] = React.useState([]);
@@ -41,8 +42,14 @@ function App() {
 
     mainApi
       .getArticles()
-      .then((articles) => setSavedArticles(articles))
-      .catch((err) => mainApi.reportError(err))
+      .then((articles) => {
+        setIsServerError(false);
+        setSavedArticles(articles);
+      })
+      .catch((err) => {
+        setIsServerError(true);
+        mainApi.reportError(err);
+      })
       .finally(() => setIsLoading(false));
   }
 
@@ -130,6 +137,7 @@ function App() {
                     setIsLoading={setIsLoading}
                     setShowResults={setShowResults}
                     reportError={mainApi.reportError.bind(mainApi)}
+                    setIsServerError={setIsServerError}
                   />
                 </Header>
                 {showResults && (
@@ -147,7 +155,7 @@ function App() {
                         getSavedArticles={getSavedArticles}
                       />
                     </NewsCardList>
-                    <NotFound />
+                    <NotFound isServerError={isServerError} />
                   </Main>
                 )}
                 <About />

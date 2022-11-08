@@ -27,8 +27,12 @@ export default function SearchForm(props) {
           localStorage.setItem('articles', JSON.stringify(newArticles));
           props.setArticles(newArticles);
           props.getSavedArticles();
+          props.setIsServerError(false);
         })
-        .catch((err) => props.reportError(err))
+        .catch((err) => {
+          props.setIsServerError(true);
+          props.reportError(err);
+        })
         .finally(() => {
           props.setIsLoading(false);
           props.setShowResults(true);
