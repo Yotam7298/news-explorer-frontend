@@ -1,7 +1,7 @@
 // IMPORTS
 // React
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 // Components
 import Header from '../Header/Header';
 import Navbar from '../Navbar/Navbar';
@@ -33,6 +33,8 @@ function App() {
   const [showResults, setShowResults] = React.useState(true);
   const [articles, setArticles] = React.useState([]);
   const [savedArticles, setSavedArticles] = React.useState([]);
+
+  const history = useHistory();
 
   function getSavedArticles() {
     setIsLoading(true);
@@ -68,7 +70,12 @@ function App() {
   }, []);
 
   React.useEffect(() => {
-    getSavedArticles();
+    if (isLoggedIn) {
+      getSavedArticles();
+    }
+    if (history.location.state) {
+      setIsPopupOpen(history.location.state.signin);
+    }
   }, []);
 
   return (

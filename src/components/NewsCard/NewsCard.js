@@ -101,7 +101,17 @@ export default function NewsCard(props) {
           className='news-card__function'
         >
           <img
-            src={isMarked ? bookmarkActive : isHover ? bookmarkHover : bookmark}
+            src={
+              isLoggedIn
+                ? isMarked
+                  ? bookmarkActive
+                  : isHover
+                  ? bookmarkHover
+                  : bookmark
+                : isHover
+                ? bookmarkHover
+                : bookmark
+            }
             alt='bookmark button'
             onMouseEnter={functionHovered}
             onMouseLeave={functionEndHover}
