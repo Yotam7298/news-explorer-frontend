@@ -7,6 +7,18 @@
   border-radius: 100px;
 }
 
+.search-form_error {
+  background-color: rgb(255, 150, 150);
+}
+
+.search-form_error .search-form__input {
+  background-color: rgb(255, 150, 150);
+}
+
+.search-form_error .search-form__input::placeholder {
+  color: black;
+}
+
 .search-form__fieldset {
   height: 100%;
   margin: 0;

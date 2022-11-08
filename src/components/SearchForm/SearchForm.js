@@ -16,6 +16,7 @@ export default function SearchForm(props) {
     if (searchQuery) {
       props.setIsLoading(true);
       props.setArticles(true);
+      setSearchPreholder('Enter topic');
       props
         .searchReq(searchQuery)
         .then((articles) => {
@@ -72,7 +73,11 @@ export default function SearchForm(props) {
   }
 
   return (
-    <form className='search-form'>
+    <form
+      className={`search-form ${
+        searchPreholder !== 'Enter topic' && 'search-form_error'
+      }`}
+    >
       <fieldset className='search-form__fieldset'>
         <input
           type='text'
