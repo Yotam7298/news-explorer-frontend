@@ -2,14 +2,14 @@ import React from 'react';
 import SavedArticlesContext from '../../contexts/SavedArticlesContext';
 
 export default function Main(props) {
-  const articles = JSON.parse(localStorage.getItem('articles'));
   const savedArticles = React.useContext(SavedArticlesContext);
+  let articles = JSON.parse(localStorage.getItem('articles'));
 
   React.useEffect(() => {
     if (props.saved) {
       props.getSavedArticles();
     } else {
-      const articles = JSON.parse(localStorage.getItem('articles'));
+      articles = JSON.parse(localStorage.getItem('articles'));
     }
   }, []);
 
@@ -23,7 +23,7 @@ export default function Main(props) {
         </div>
       ) : (
         <div className='main__content'>
-          {articles ? (
+          {articles.length ? (
             <div>
               <h3 className='main__title'>Search results</h3>
               {props.children[1]}
