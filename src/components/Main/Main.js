@@ -29,7 +29,7 @@ export default function Main(props) {
         </div>
       ) : (
         <div className='main__content'>
-          {articles.length ? (
+          {articles && articles.length ? (
             <div>
               <h3 className='main__title'>Search results</h3>
               {props.children[1]}

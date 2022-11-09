@@ -85,6 +85,9 @@ function App() {
   }, []);
 
   React.useEffect(() => {
+    if (!localStorage.getItem('articles')) {
+      setShowResults(false);
+    }
     if (isLoggedIn) {
       getSavedArticles();
     }
