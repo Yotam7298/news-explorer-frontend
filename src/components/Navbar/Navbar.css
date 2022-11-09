@@ -155,7 +155,7 @@
     display: none;
   }
 
-  .navbar__signin:last-of-type {
+  .navbar__signin_logged {
     width: 288px;
     height: 56px;
     display: inline;
@@ -165,6 +165,14 @@
 
   .navbar__signout {
     display: none;
+  }
+
+  .navbar__signout_logged {
+    width: 288px;
+    height: 56px;
+    display: inline;
+    align-self: center;
+    font-size: 18px;
   }
 
   .navbar__menu-button {

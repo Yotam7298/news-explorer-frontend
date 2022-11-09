@@ -1,23 +1,77 @@
+// Imports
+// React
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+// Form Validation
 import useFormValidation from '../../hooks/formValidatorHook';
 
 export default function PopupWithForm(props) {
+  // State Variables
   const [isSignIn, setIsSignIn] = React.useState(true);
   const [isSuccess, setIsSuccess] = React.useState(false);
+  const [apiError, setApiError] = React.useState('');
+
+  //Form Validation consts
   const { values, handleChange, errors, isValid, resetForm } =
     useFormValidation();
 
+  // History
+  const history = useHistory();
+
+  //Functions
+  //Switch Form
   function switchForm() {
     setIsSignIn(!isSignIn);
   }
 
+  // Success SignUp
   function successRedirect() {
     setIsSignIn(true);
     setIsSuccess(false);
   }
 
+  // Submits
+  function handleSignUp(evt) {
+    evt.preventDefault();
+
+    props
+      .signUpReq({
+        email: values.email,
+        password: values.password,
+        username: values.username,
+      })
+      .then(() => {
+        setIsSuccess(true);
+        setApiError('');
+      })
+      .catch((err) => {
+        props.reportError(err).then((data) => setApiError(data.message));
+      });
+  }
+
+  function handleSignIn(evt) {
+    evt.preventDefault();
+
+    props
+      .signInReq({
+        email: values.email,
+        password: values.password,
+      })
+      .then((jwt) => {
+        localStorage.setItem('jwt', jwt.token);
+        props.setIsOpen(false);
+        setApiError('');
+        history.go(0);
+      })
+      .catch((err) => {
+        props.reportError(err).then((data) => setApiError(data.message));
+      });
+  }
+
+  // useEffect
   React.useEffect(() => {
     resetForm();
+    setApiError('');
   }, [props.isOpen, isSignIn]);
 
   return (
@@ -115,6 +169,7 @@ export default function PopupWithForm(props) {
               )}
               <button
                 type='submit'
+                onClick={isSignIn ? handleSignIn : handleSignUp}
                 disabled={!isValid}
                 className={`popup__submit ${
                   isValid ? '' : 'popup__submit_disabled'
@@ -128,6 +183,7 @@ export default function PopupWithForm(props) {
                   {isSignIn ? 'Sign Up' : 'Sign In'}
                 </button>
               </p>
+              {apiError && <p className='popup__api-error'>{apiError}</p>}
             </fieldset>
           )}
           {isSuccess && (

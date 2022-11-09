@@ -135,6 +135,13 @@
   cursor: default;
 }
 
+.popup__api-error {
+  margin-top: 3px;
+  font-size: 12px;
+  text-align: center;
+  color: red;
+}
+
 .popup__redirect {
   margin-top: 16px;
   text-align: center;

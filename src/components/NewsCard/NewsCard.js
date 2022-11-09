@@ -1,13 +1,37 @@
+// Imports
+// React
 import React from 'react';
 import { Link } from 'react-router-dom';
+// Images
 import bookmark from '../../images/bookmark.svg';
 import bookmarkHover from '../../images/bookmark_hover.svg';
 import bookmarkActive from '../../images/bookmark_active.svg';
 import remove from '../../images/remove.svg';
 import removeHover from '../../images/remove_hover.svg';
+// Contexts
+import LoggedInContext from '../../contexts/LoggedInContext';
 
 export default function NewsCard(props) {
+  // State Variables
   const [isHover, setIsHover] = React.useState(false);
+  const [isMarked, setIsMarked] = React.useState(false);
+  const [articleId, setArticleId] = React.useState('');
+  // Contexts consts
+  const isLoggedIn = React.useContext(LoggedInContext);
+
+  // Functions
+  function updateLocalStorage(url, options) {
+    const currentArticles = JSON.parse(localStorage.getItem('articles'));
+    const updatedArticles = currentArticles.map((article) => {
+      if (article.link === url) {
+        article._id = options._id;
+        article.marked = options.marked;
+      }
+      return article;
+    });
+    localStorage.removeItem('articles');
+    localStorage.setItem('articles', JSON.stringify(updatedArticles));
+  }
 
   function functionHovered() {
     setIsHover(true);
@@ -17,9 +41,48 @@ export default function NewsCard(props) {
     setIsHover(false);
   }
 
+  function openSignIn() {
+    props.setIsPopupOpen(true);
+  }
+
+  function addArticle() {
+    const article = { ...props.article };
+    delete article._id;
+    delete article.marked;
+
+    props.bookmarkReq(article).then((article) => {
+      setArticleId(article._id);
+      setIsMarked(true);
+      updateLocalStorage(article.link, { _id: article._id, marked: true });
+    });
+  }
+
+  function removeArticle() {
+    const thisArticleId = articleId || props.article._id;
+    props.removeReq(thisArticleId).then(() => {
+      setIsMarked(false);
+      updateLocalStorage(props.article.link, {
+        _id: thisArticleId,
+        marked: false,
+      });
+      if (props.saved) {
+        props.reloadSavedArticles();
+      }
+    });
+  }
+
+  // useEffects
+  React.useEffect(() => {
+    setIsMarked(props.article.marked);
+  }, []);
+
   return (
     <article className='news-card'>
-      <div className='news-card__keyword'>{props.article.keyword}</div>
+      {props.saved && (
+        <div className='news-card__keyword'>
+          {props.article.keyword || 'Keyword'}
+        </div>
+      )}
       {props.saved ? (
         <div
           onClick={(evt) => evt.stopPropagation()}
@@ -27,9 +90,10 @@ export default function NewsCard(props) {
         >
           <img
             src={isHover ? removeHover : remove}
-            alt='bookmark button'
+            alt='remove button'
             onMouseEnter={functionHovered}
             onMouseLeave={functionEndHover}
+            onClick={removeArticle}
             className='news-card__function-icon'
           />
           <div
@@ -47,8 +111,12 @@ export default function NewsCard(props) {
         >
           <img
             src={
-              props.article.marked
-                ? bookmarkActive
+              isLoggedIn
+                ? isMarked
+                  ? bookmarkActive
+                  : isHover
+                  ? bookmarkHover
+                  : bookmark
                 : isHover
                 ? bookmarkHover
                 : bookmark
@@ -56,15 +124,20 @@ export default function NewsCard(props) {
             alt='bookmark button'
             onMouseEnter={functionHovered}
             onMouseLeave={functionEndHover}
+            onClick={
+              isLoggedIn ? (isMarked ? removeArticle : addArticle) : openSignIn
+            }
             className='news-card__function-icon'
           />
-          <div
-            className={`news-card__function-message ${
-              isHover ? 'news-card__function-message_show' : ''
-            }`}
-          >
-            Sign in to save article
-          </div>
+          {!isLoggedIn && (
+            <div
+              className={`news-card__function-message ${
+                isHover ? 'news-card__function-message_show' : ''
+              }`}
+            >
+              Sign in to save article
+            </div>
+          )}
         </div>
       )}
       <img
@@ -73,7 +146,7 @@ export default function NewsCard(props) {
         className='news-card__image'
       />
       <Link
-        to={{ pathname: 'https://google.com/' }}
+        to={{ pathname: props.article.link }}
         target='_blank'
         className='news-card__text'
       >
