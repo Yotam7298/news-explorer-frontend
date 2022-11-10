@@ -13,8 +13,8 @@ Node.js is implemented to manage external libraries and for making scripts for q
 
 ## Links
 
-- [Domain for the Front-End APP](www.yotamfinal.students.nomoredomainssbs.ru)
-- [Domain for the API](api.yotamfinal.students.nomoredomainssbs.ru)
+- [Domain for the Front-End APP](https://www.yotamfinal.students.nomoredomainssbs.ru/)
+- [Domain for the API](https://api.yotamfinal.students.nomoredomainssbs.ru/)
 - [API Repository](https://github.com/Yotam7298/news-explorer-frontend)
 - [Figma for the project](https://www.figma.com/file/z1bxDn7eBEDlsDhnZ9dtin/Your-Final-Project?node-id=0%3A1)
 
