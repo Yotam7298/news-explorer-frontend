@@ -26,10 +26,12 @@ import SavedArticlesContext from '../../contexts/SavedArticlesContext';
 import ProtectedRoute from '../../utils/ProtectedRoute';
 
 function App() {
+  const initialState = () => !!localStorage.getItem('jwt');
+
   // State Variables
   // User
   const [currentUser, setCurrentUser] = React.useState({});
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(initialState);
   // Popup
   const [isPopupOpen, setIsPopupOpen] = React.useState(false);
   // Server
