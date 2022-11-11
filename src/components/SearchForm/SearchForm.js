@@ -85,6 +85,7 @@ export default function SearchForm(props) {
 
   return (
     <form
+      onSubmit={submitSearch}
       className={`search-form ${
         searchPreholder !== 'Enter topic' && 'search-form_error'
       }`}
@@ -97,11 +98,7 @@ export default function SearchForm(props) {
           onChange={handleChange}
           className='search-form__input'
         />
-        <button
-          onClick={submitSearch}
-          type='submit'
-          className='search-form__submit'
-        >
+        <button type='submit' className='search-form__submit'>
           Search
         </button>
       </fieldset>
