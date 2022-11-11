@@ -42,11 +42,11 @@ class MainApi {
       });
   }
 
-  signUp({ email, password, username }) {
+  signUp({ email, password, name }) {
     return this._request('/signup', 'POST', {
       email,
       password,
-      name: username,
+      name,
     });
   }
 

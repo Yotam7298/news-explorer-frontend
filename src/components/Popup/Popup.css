@@ -45,3 +45,25 @@
   opacity: 0.7;
   cursor: pointer;
 }
+
+@media screen and (max-width: 767px) {
+  .popup__content {
+    width: calc(100% - 32px);
+    height: calc(100% - 56px);
+    margin-top: 56px;
+    padding: 16px 16px 0;
+    border-radius: 16px 16px 0 0;
+    top: 0;
+    left: 0;
+    transform: none;
+  }
+
+  .popup__close {
+    background-size: cover;
+    background-position: center;
+    width: calc(24px + 16 * ((100vw - 320px) / 447));
+    height: calc(24px + 16 * ((100vw - 320px) / 447));
+    top: calc(-40px - 8 * ((100vw - 320px) / 447));
+    right: 16px;
+  }
+}

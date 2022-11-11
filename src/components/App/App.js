@@ -13,7 +13,8 @@ import About from '../About/About';
 import Footer from '../Footer/Footer';
 import NewsCard from '../NewsCard/NewsCard';
 import NewsCardList from '../NewsCardList/NewscardList';
-import PopupWithForm from '../PopupWithForm/PopupWithForm';
+import Popup from '../Popup/Popup';
+import Form from '../Form/Form';
 import NotFound from '../NotFound/NotFound';
 // APIs
 import mainApi from '../../utils/MainApi';
@@ -24,6 +25,8 @@ import CurrentUserContext from '../../contexts/CurrentUserContext';
 import SavedArticlesContext from '../../contexts/SavedArticlesContext';
 // Protected Route
 import ProtectedRoute from '../../utils/ProtectedRoute';
+// Validator
+import useFormValidation from '../../hooks/formValidatorHook';
 
 function App() {
   const initialState = () => !!localStorage.getItem('jwt');
@@ -34,6 +37,8 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(initialState);
   // Popup
   const [isPopupOpen, setIsPopupOpen] = React.useState(false);
+  const [popupType, setPopupType] = React.useState(0);
+  const [apiError, setApiError] = React.useState('');
   // Server
   const [isLoading, setIsLoading] = React.useState(false);
   const [isServerError, setIsServerError] = React.useState(false);
@@ -43,6 +48,10 @@ function App() {
   const [savedArticles, setSavedArticles] = React.useState([]);
 
   const history = useHistory();
+
+  //Form Validation consts
+  const { values, handleChange, errors, isValid, resetForm } =
+    useFormValidation();
 
   function getSavedArticles() {
     setIsLoading(true);
@@ -60,19 +69,59 @@ function App() {
       .finally(() => setIsLoading(false));
   }
 
+  function openSignIn() {
+    resetForm();
+    setApiError('');
+    setPopupType(0);
+    setIsPopupOpen(true);
+  }
+
+  function closePopup() {
+    setIsPopupOpen(false);
+  }
+
+  function switchForm(to) {
+    resetForm();
+    setApiError('');
+    setPopupType(to);
+  }
+
+  // Submit Functions
+  function submitSignIn(evt) {
+    evt.preventDefault();
+
+    mainApi
+      .signIn(values)
+      .then((jwt) => {
+        localStorage.setItem('jwt', jwt.token);
+        closePopup();
+        setApiError('');
+        history.go(0);
+      })
+      .catch((err) => {
+        mainApi.reportError(err).then((data) => setApiError(data.message));
+      });
+  }
+
+  function submitSignUp(evt) {
+    evt.preventDefault();
+
+    mainApi
+      .signUp({
+        email: values.email,
+        password: values.password,
+        name: values.name,
+      })
+      .then(() => {
+        switchForm(2);
+        setApiError('');
+      })
+      .catch((err) => {
+        mainApi.reportError(err).then((data) => setApiError(data.message));
+      });
+  }
+
   // useEffects:
-  // Close popup
-  React.useEffect(() => {
-    const closeByEscape = (evt) => {
-      if (evt.key === 'Escape') {
-        setIsPopupOpen(false);
-      }
-    };
-    document.addEventListener('keydown', closeByEscape);
-
-    return () => document.removeEventListener('keydown', closeByEscape);
-  }, []);
-
   // JWT check
   React.useEffect(() => {
     if (localStorage.getItem('jwt')) {
@@ -103,21 +152,159 @@ function App() {
       <CurrentUserContext.Provider value={currentUser}>
         <SavedArticlesContext.Provider value={savedArticles}>
           <div className='app'>
-            <PopupWithForm
-              isOpen={isPopupOpen}
-              setIsOpen={setIsPopupOpen}
-              signUpReq={mainApi.signUp.bind(mainApi)}
-              signInReq={mainApi.signIn.bind(mainApi)}
-              reportError={mainApi.reportError.bind(mainApi)}
-            />
+            <Popup isOpen={isPopupOpen} onClose={closePopup} type={popupType}>
+              <Form
+                title={'Sign In'}
+                isSubmit={true}
+                redirect={'Sign Up'}
+                redirectTo={1}
+                switchForm={switchForm}
+                apiError={apiError}
+                isValid={isValid}
+                submitForm={submitSignIn}
+              >
+                <fieldset className='form__fieldset'>
+                  <label htmlFor='email' className='form__input-title'>
+                    Email
+                  </label>
+                  <input
+                    value={values.email || ''}
+                    onChange={handleChange}
+                    type='email'
+                    id='email'
+                    name='email'
+                    required
+                    className={`form__input ${
+                      errors.email ? 'form__input_error' : ''
+                    }`}
+                    placeholder='Enter email'
+                  />
+                  <span
+                    className={`form__input-error ${
+                      errors.email ? 'form__input-error_active' : ''
+                    }`}
+                  >
+                    {errors.email}
+                  </span>
+                  <label htmlFor='password' className='form__input-title'>
+                    Password
+                  </label>
+                  <input
+                    value={values.password || ''}
+                    onChange={handleChange}
+                    type='password'
+                    id='password'
+                    name='password'
+                    minLength={8}
+                    required
+                    className={`form__input ${
+                      errors.password ? 'form__input_error' : ''
+                    }`}
+                    placeholder='Enter password'
+                  />
+                  <span
+                    className={`form__input-error ${
+                      errors.password ? 'form__input-error_active' : ''
+                    }`}
+                  >
+                    {errors.password}
+                  </span>
+                </fieldset>
+              </Form>
+              <Form
+                title={'Sign Up'}
+                isSubmit={true}
+                redirect={'Sign In'}
+                redirectTo={0}
+                switchForm={switchForm}
+                apiError={apiError}
+                isValid={isValid}
+                submitForm={submitSignUp}
+              >
+                <fieldset className='form__fieldset'>
+                  <label htmlFor='email' className='form__input-title'>
+                    Email
+                  </label>
+                  <input
+                    value={values.email || ''}
+                    onChange={handleChange}
+                    type='email'
+                    id='email'
+                    name='email'
+                    required
+                    className={`form__input ${
+                      errors.email ? 'form__input_error' : ''
+                    }`}
+                    placeholder='Enter email'
+                  />
+                  <span
+                    className={`form__input-error ${
+                      errors.email ? 'form__input-error_active' : ''
+                    }`}
+                  >
+                    {errors.email}
+                  </span>
+                  <label htmlFor='password' className='form__input-title'>
+                    Password
+                  </label>
+                  <input
+                    value={values.password || ''}
+                    onChange={handleChange}
+                    type='password'
+                    id='password'
+                    name='password'
+                    minLength={8}
+                    required
+                    className={`form__input ${
+                      errors.password ? 'form__input_error' : ''
+                    }`}
+                    placeholder='Enter password'
+                  />
+                  <span
+                    className={`form__input-error ${
+                      errors.password ? 'form__input-error_active' : ''
+                    }`}
+                  >
+                    {errors.password}
+                  </span>
+                  <label htmlFor='name' className='form__input-title'>
+                    Username
+                  </label>
+                  <input
+                    value={values.name || ''}
+                    onChange={handleChange}
+                    type='text'
+                    id='name'
+                    name='name'
+                    minLength={2}
+                    maxLength={30}
+                    required
+                    className={`form__input ${
+                      errors.name ? 'form__input_error' : ''
+                    }`}
+                    placeholder='Enter your username'
+                  />
+                  <span
+                    className={`form__input-error ${
+                      errors.name ? 'form__input-error_active' : ''
+                    }`}
+                  >
+                    {errors.name}
+                  </span>
+                </fieldset>
+              </Form>
+              <Form
+                title={'Registration successfully completed!'}
+                redirect={'Sign In'}
+                redirectTo={0}
+                switchForm={switchForm}
+                redirectClass='form__redirect-success'
+              />
+            </Popup>
             <Switch>
               <ProtectedRoute path='/saved-news'>
                 <SavedNewsHeader>
-                  <Navbar
-                    saved
-                    setIsLoggedIn={setIsLoggedIn}
-                    setIsOpen={setIsPopupOpen}
-                  />
+                  <Navbar saved setIsLoggedIn={setIsLoggedIn} />
                 </SavedNewsHeader>
                 <Main
                   saved
@@ -141,7 +328,7 @@ function App() {
                 <Header>
                   <Navbar
                     setIsLoggedIn={setIsLoggedIn}
-                    setIsOpen={setIsPopupOpen}
+                    openSignIn={openSignIn}
                   />
                   <SearchForm
                     searchReq={searchArticles}

@@ -21,13 +21,13 @@ export default function Navbar(props) {
   const history = useHistory();
 
   // Functions
-  function signButton() {
-    setIsMenuOpen(false);
-    props.setIsOpen(true);
-  }
-
   function toggleMenu() {
     setIsMenuOpen(!isMenuOpen);
+  }
+
+  function openPopup() {
+    props.openSignIn();
+    setIsMenuOpen(false);
   }
 
   function signOut() {
@@ -63,10 +63,7 @@ export default function Navbar(props) {
           <div className='navbar__link'>Saved Articles</div>
         </NavLink>
       ) : (
-        <button
-          onClick={() => props.setIsOpen(true)}
-          className='navbar__signin'
-        >
+        <button onClick={openPopup} className='navbar__signin'>
           Sign In
         </button>
       )}
@@ -96,7 +93,7 @@ export default function Navbar(props) {
           </NavLink>
         ) : (
           <button
-            onClick={signButton}
+            onClick={openPopup}
             className='navbar__signin navbar__signin_logged'
           >
             Sign In
