@@ -32,8 +32,10 @@ export default function Navbar(props) {
 
   function signOut() {
     localStorage.removeItem('jwt');
+    localStorage.removeItem('articles');
     props.setIsLoggedIn(false);
     history.push('/');
+    history.go(0);
   }
 
   return (

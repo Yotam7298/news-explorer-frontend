@@ -6,7 +6,7 @@ export default function Form(props) {
   //Functions
   //Switch Form
   function redirectForm() {
-    props.switchForm(props.redirectTo);
+    props.switchForm(props.redirect);
   }
 
   return (

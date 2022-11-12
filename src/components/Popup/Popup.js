@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Popup({ isOpen, onClose, children, type }) {
+export default function Popup({ isOpen, onClose, children }) {
   function closeOnOverlay(evt) {
     if (evt.target === evt.currentTarget) {
       onClose();
@@ -28,7 +28,7 @@ export default function Popup({ isOpen, onClose, children, type }) {
     >
       <div className='popup__content'>
         <button onClick={onClose} className='popup__close' />
-        {children[type]}
+        {children}
       </div>
     </div>
   );

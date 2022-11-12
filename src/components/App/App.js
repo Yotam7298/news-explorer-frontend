@@ -13,9 +13,9 @@ import About from '../About/About';
 import Footer from '../Footer/Footer';
 import NewsCard from '../NewsCard/NewsCard';
 import NewsCardList from '../NewsCardList/NewscardList';
-import Popup from '../Popup/Popup';
-import Form from '../Form/Form';
 import NotFound from '../NotFound/NotFound';
+import Login from '../Login/Login';
+import Register from '../Register/Register';
 // APIs
 import mainApi from '../../utils/MainApi';
 import searchArticles from '../../utils/NewsApi';
@@ -36,8 +36,9 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [isLoggedIn, setIsLoggedIn] = React.useState(initialState);
   // Popup
-  const [isPopupOpen, setIsPopupOpen] = React.useState(false);
-  const [popupType, setPopupType] = React.useState(0);
+  const [isRegisterOpen, setIsRegisterOpen] = React.useState(false);
+  const [isRegisterSuccess, setIsRegisterSuccess] = React.useState(false);
+  const [isLoginOpen, setIsLoginOpen] = React.useState(false);
   const [apiError, setApiError] = React.useState('');
   // Server
   const [isLoading, setIsLoading] = React.useState(false);
@@ -72,18 +73,27 @@ function App() {
   function openSignIn() {
     resetForm();
     setApiError('');
-    setPopupType(0);
-    setIsPopupOpen(true);
+    setIsLoginOpen(true);
   }
 
   function closePopup() {
-    setIsPopupOpen(false);
+    setIsLoginOpen(false);
+    setIsRegisterOpen(false);
+    setIsRegisterSuccess(false);
   }
 
   function switchForm(to) {
     resetForm();
     setApiError('');
-    setPopupType(to);
+    if (to === 'Sign In') {
+      setIsLoginOpen(true);
+      setIsRegisterOpen(false);
+      setIsRegisterSuccess(false);
+    } else if (to === 'Sign Up') {
+      setIsLoginOpen(false);
+      setIsRegisterOpen(true);
+      setIsRegisterSuccess(false);
+    }
   }
 
   // Submit Functions
@@ -113,7 +123,7 @@ function App() {
         name: values.name,
       })
       .then(() => {
-        switchForm(2);
+        setIsRegisterSuccess(true);
         setApiError('');
       })
       .catch((err) => {
@@ -143,7 +153,7 @@ function App() {
       getSavedArticles();
     }
     if (history.location.state) {
-      setIsPopupOpen(history.location.state.signin);
+      setIsLoginOpen(history.location.state.signin);
     }
   }, []);
 
@@ -152,155 +162,33 @@ function App() {
       <CurrentUserContext.Provider value={currentUser}>
         <SavedArticlesContext.Provider value={savedArticles}>
           <div className='app'>
-            <Popup isOpen={isPopupOpen} onClose={closePopup} type={popupType}>
-              <Form
-                title={'Sign In'}
-                isSubmit={true}
-                redirect={'Sign Up'}
-                redirectTo={1}
-                switchForm={switchForm}
+            {isLoginOpen && (
+              <Login
+                isOpen={isLoginOpen}
+                onClose={closePopup}
                 apiError={apiError}
                 isValid={isValid}
                 submitForm={submitSignIn}
-              >
-                <fieldset className='form__fieldset'>
-                  <label htmlFor='email' className='form__input-title'>
-                    Email
-                  </label>
-                  <input
-                    value={values.email || ''}
-                    onChange={handleChange}
-                    type='email'
-                    id='email'
-                    name='email'
-                    required
-                    className={`form__input ${
-                      errors.email ? 'form__input_error' : ''
-                    }`}
-                    placeholder='Enter email'
-                  />
-                  <span
-                    className={`form__input-error ${
-                      errors.email ? 'form__input-error_active' : ''
-                    }`}
-                  >
-                    {errors.email}
-                  </span>
-                  <label htmlFor='password' className='form__input-title'>
-                    Password
-                  </label>
-                  <input
-                    value={values.password || ''}
-                    onChange={handleChange}
-                    type='password'
-                    id='password'
-                    name='password'
-                    minLength={8}
-                    required
-                    className={`form__input ${
-                      errors.password ? 'form__input_error' : ''
-                    }`}
-                    placeholder='Enter password'
-                  />
-                  <span
-                    className={`form__input-error ${
-                      errors.password ? 'form__input-error_active' : ''
-                    }`}
-                  >
-                    {errors.password}
-                  </span>
-                </fieldset>
-              </Form>
-              <Form
-                title={'Sign Up'}
-                isSubmit={true}
-                redirect={'Sign In'}
-                redirectTo={0}
+                values={values}
+                errors={errors}
+                handleChange={handleChange}
                 switchForm={switchForm}
+              />
+            )}
+            {isRegisterOpen && (
+              <Register
+                isOpen={isRegisterOpen}
+                isSuccess={isRegisterSuccess}
+                onClose={closePopup}
                 apiError={apiError}
                 isValid={isValid}
                 submitForm={submitSignUp}
-              >
-                <fieldset className='form__fieldset'>
-                  <label htmlFor='email' className='form__input-title'>
-                    Email
-                  </label>
-                  <input
-                    value={values.email || ''}
-                    onChange={handleChange}
-                    type='email'
-                    id='email'
-                    name='email'
-                    required
-                    className={`form__input ${
-                      errors.email ? 'form__input_error' : ''
-                    }`}
-                    placeholder='Enter email'
-                  />
-                  <span
-                    className={`form__input-error ${
-                      errors.email ? 'form__input-error_active' : ''
-                    }`}
-                  >
-                    {errors.email}
-                  </span>
-                  <label htmlFor='password' className='form__input-title'>
-                    Password
-                  </label>
-                  <input
-                    value={values.password || ''}
-                    onChange={handleChange}
-                    type='password'
-                    id='password'
-                    name='password'
-                    minLength={8}
-                    required
-                    className={`form__input ${
-                      errors.password ? 'form__input_error' : ''
-                    }`}
-                    placeholder='Enter password'
-                  />
-                  <span
-                    className={`form__input-error ${
-                      errors.password ? 'form__input-error_active' : ''
-                    }`}
-                  >
-                    {errors.password}
-                  </span>
-                  <label htmlFor='name' className='form__input-title'>
-                    Username
-                  </label>
-                  <input
-                    value={values.name || ''}
-                    onChange={handleChange}
-                    type='text'
-                    id='name'
-                    name='name'
-                    minLength={2}
-                    maxLength={30}
-                    required
-                    className={`form__input ${
-                      errors.name ? 'form__input_error' : ''
-                    }`}
-                    placeholder='Enter your username'
-                  />
-                  <span
-                    className={`form__input-error ${
-                      errors.name ? 'form__input-error_active' : ''
-                    }`}
-                  >
-                    {errors.name}
-                  </span>
-                </fieldset>
-              </Form>
-              <Form
-                title={'Registration successfully completed!'}
-                redirect={'Sign In'}
-                redirectTo={0}
+                values={values}
+                errors={errors}
+                handleChange={handleChange}
                 switchForm={switchForm}
-                redirectClass='form__redirect-success'
               />
-            </Popup>
+            )}
             <Switch>
               <ProtectedRoute path='/saved-news'>
                 <SavedNewsHeader>
@@ -350,7 +238,7 @@ function App() {
                         bookmarkReq={mainApi.saveArticle.bind(mainApi)}
                         removeReq={mainApi.removeArticle.bind(mainApi)}
                         reportError={mainApi.reportError.bind(mainApi)}
-                        setIsPopupOpen={setIsPopupOpen}
+                        setIsLoginOpen={setIsLoginOpen}
                         setArticles={setArticles}
                         getSavedArticles={getSavedArticles}
                       />

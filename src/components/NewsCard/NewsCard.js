@@ -42,7 +42,7 @@ export default function NewsCard(props) {
   }
 
   function openSignIn() {
-    props.setIsPopupOpen(true);
+    props.setIsLoginOpen(true);
   }
 
   function addArticle() {
